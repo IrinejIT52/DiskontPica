@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace DiskontPica.Migrations.SqlServerMigrationsDS
+namespace DiskontPica.Migrations
 {
     [DbContext(typeof(DrinkStoreContext))]
     partial class DrinkStoreContextModelSnapshot : ModelSnapshot
@@ -35,6 +35,14 @@ namespace DiskontPica.Migrations.SqlServerMigrationsDS
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("salt")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -98,6 +106,14 @@ namespace DiskontPica.Migrations.SqlServerMigrationsDS
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("salt")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

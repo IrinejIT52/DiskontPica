@@ -1,4 +1,5 @@
 ﻿using DiskontPica.Repository;
+using Microsoft.OpenApi.Models;
 
 namespace DiskontPica
 {
@@ -20,8 +21,8 @@ namespace DiskontPica
 			services.AddDbContext<DrinkStoreContext>();
 			services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-			services.AddSwaggerGen(options =>
-			{
+			services.AddSwaggerGen(c =>
+			{ 
 			});
 		}
 
