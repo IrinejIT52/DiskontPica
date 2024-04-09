@@ -7,10 +7,10 @@ namespace DiskontPica.Helper
 	{
 		public Administrator AuthenticatePrincipalAdmin(Principal principal);
 
-		public string GenerateJwt(Administrator principal);
+		public string GenerateJwtAdmin(Administrator principal);
 
 		public Customer AuthenticatePrincipalCustomer(Principal principal);
 
-		public string GenerateJwt(Customer principal);
+		public string GenerateJwtCustomer(Customer principal);
 	}
 }

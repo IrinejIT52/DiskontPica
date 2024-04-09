@@ -34,7 +34,7 @@ namespace DiskontPica.Helper
 			return user;
 		}
 
-		public string GenerateJwt(Administrator principal)
+		public string GenerateJwtAdmin(Administrator principal)
 		{
 			var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
 			var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -54,7 +54,7 @@ namespace DiskontPica.Helper
 			return new JwtSecurityTokenHandler().WriteToken(token);
 		}
 
-		public string GenerateJwt(Customer principal)
+		public string GenerateJwtCustomer(Customer principal)
 		{
 			var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
 			var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
