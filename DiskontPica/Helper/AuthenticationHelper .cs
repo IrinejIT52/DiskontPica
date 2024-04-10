@@ -10,33 +10,33 @@ namespace DiskontPica.Helper
 	public class AuthenticationHelper : IAuthenticationHelper
 	{
 
-		private readonly IConfiguration configuration;
-		private readonly IDrinkStoreRepository drinkStoreRepository;
+		private readonly IConfiguration _configuration;
+		private readonly IDrinkStoreRepository _drinkStoreRepository;
 
-		public AuthenticationHelper(IConfiguration configuration, IDrinkStoreRepository userRepository)
+		public AuthenticationHelper(IConfiguration configuration, IDrinkStoreRepository drinkStoreRepository)
 		{
-			this.configuration = configuration;
-			this.drinkStoreRepository = drinkStoreRepository;
+			_configuration = configuration;
+			_drinkStoreRepository = drinkStoreRepository;
 		}
 
 
 		public Administrator AuthenticatePrincipalAdmin(Principal principal)
 		{
-			var user = drinkStoreRepository.GetAdministratorWithCredentials(principal.name, principal.password);
+			var admin = _drinkStoreRepository.GetAdministratorWithCredentials(principal.name, principal.password);
 
-			return user;
+			return admin;
 		}
 
 		public Customer AuthenticatePrincipalCustomer(Principal principal)
 		{
-			var user = drinkStoreRepository.GetCustomerWithCredentials(principal.name, principal.password);
+			var customer = _drinkStoreRepository.GetCustomerWithCredentials(principal.name, principal.password);
 
-			return user;
+			return customer;
 		}
 
 		public string GenerateJwtAdmin(Administrator principal)
 		{
-			var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
+			var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
 			var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 			var claims = new List<Claim>
 			{
@@ -45,8 +45,8 @@ namespace DiskontPica.Helper
 			};
 
 
-			var token = new JwtSecurityToken(configuration["Jwt:Issuer"],
-											 configuration["Jwt:Issuer"],
+			var token = new JwtSecurityToken(_configuration["Jwt:Issuer"],
+											 _configuration["Jwt:Issuer"],
 											 claims,
 											 expires: DateTime.Now.AddMinutes(120),
 											 signingCredentials: credentials);
@@ -56,17 +56,18 @@ namespace DiskontPica.Helper
 
 		public string GenerateJwtCustomer(Customer principal)
 		{
-			var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
+			var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
 			var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 			var claims = new List<Claim>
 			{
 				new Claim("name", principal.name),
 				new Claim("email", principal.email),
+				new Claim("adress", principal.adress)
 			};
 
 
-			var token = new JwtSecurityToken(configuration["Jwt:Issuer"],
-											 configuration["Jwt:Issuer"],
+			var token = new JwtSecurityToken(_configuration["Jwt:Issuer"],
+											 _configuration["Jwt:Issuer"],
 											 claims,
 											 expires: DateTime.Now.AddMinutes(120),
 											 signingCredentials: credentials);

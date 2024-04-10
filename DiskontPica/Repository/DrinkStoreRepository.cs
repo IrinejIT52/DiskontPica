@@ -18,118 +18,118 @@ namespace DiskontPica.Repository
 
 		public void AddAdministrator(Administrator administrator)
 		{
-			_dbContext.Administrators.Add(administrator);
+			_dbContext.Administrator.Add(administrator);
 			_dbContext.SaveChanges();
 			administrator.password = HashPassword(administrator.password, administrator.salt);
-			_dbContext.Administrators.Update(administrator);
+			_dbContext.Administrator.Update(administrator);
 			_dbContext.SaveChanges();
 		}
 
 		public void AddCategory(Category category)
 		{
-			_dbContext.Categories.Add(category);
+			_dbContext.Category.Add(category);
 			_dbContext.SaveChanges();
 		}
 
 		public void AddCountry(Country country)
 		{
-			_dbContext.Countries.Add(country);
+			_dbContext.Country.Add(country);
 			_dbContext.SaveChanges();
 		}
 
 		public void AddCustomers(Customer customer)
 		{
-			_dbContext.Customers.Add(customer);
+			_dbContext.Customer.Add(customer);
 			_dbContext.SaveChanges();
 			customer.password = HashPassword(customer.password, customer.salt);
-			_dbContext.Customers.Update(customer);
+			_dbContext.Customer.Update(customer);
 			_dbContext.SaveChanges();
 		}
 
 		public void AddOrder(Order order)
 		{
-			_dbContext.Orders.Add(order);
+			_dbContext.Order.Add(order);
 			_dbContext.SaveChanges();
 		}
 
 		public void AddOrderItem(OrderItem orderItem)
 		{
-			_dbContext.OrderItems.Add(orderItem);
+			_dbContext.OrderItem.Add(orderItem);
 			_dbContext.SaveChanges();
 		}
 
 		public void AddProduct(Product product)
 		{
-			_dbContext.Products.Add(product);
+			_dbContext.Product.Add(product);
 			_dbContext.SaveChanges();
 		}
 
 		public void DeleteAdministrator(int administratorId)
 		{
-			var obj = _dbContext.Administrators.Find(administratorId);
+			var obj = _dbContext.Administrator.Find(administratorId);
 			if (obj != null)
 			{
-				_dbContext.Administrators.Remove(obj);
+				_dbContext.Administrator.Remove(obj);
 				_dbContext.SaveChanges();
 			}
 		}
 
 		public void DeleteCategory(int categoryId)
 		{
-			var obj = _dbContext.Categories.Find(categoryId);
+			var obj = _dbContext.Category.Find(categoryId);
 			if (obj != null)
 			{
-				_dbContext.Categories.Remove(obj);
+				_dbContext.Category.Remove(obj);
 				_dbContext.SaveChanges();
 			}
 		}
 
 		public void DeleteCountry(int countryId)
 		{
-			var obj = _dbContext.Countries.Find(countryId);
+			var obj = _dbContext.Country.Find(countryId);
 			if (obj != null)
 			{
-				_dbContext.Countries.Remove(obj);
+				_dbContext.Country.Remove(obj);
 				_dbContext.SaveChanges();
 			}
 		}
 
 		public void DeleteCustomers(int customerId)
 		{
-			var obj = _dbContext.Customers.Find(customerId);
+			var obj = _dbContext.Customer.Find(customerId);
 			if (obj != null)
 			{
-				_dbContext.Customers.Remove(obj);
+				_dbContext.Customer.Remove(obj);
 				_dbContext.SaveChanges();
 			}
 		}
 
 		public void DeleteOrder(int orderId)
 		{
-			var obj = _dbContext.Orders.Find(orderId);
+			var obj = _dbContext.Order.Find(orderId);
 			if (obj != null)
 			{
-				_dbContext.Orders.Remove(obj);
+				_dbContext.Order.Remove(obj);
 				_dbContext.SaveChanges();
 			}
 		}
 
 		public void DeleteOrderItem(int orderItemId)
 		{
-			var obj = _dbContext.OrderItems.Find(orderItemId);
+			var obj = _dbContext.OrderItem.Find(orderItemId);
 			if (obj != null)
 			{
-				_dbContext.OrderItems.Remove(obj);
+				_dbContext.OrderItem.Remove(obj);
 				_dbContext.SaveChanges();
 			}
 		}
 
 		public void DeleteProduct(int productId)
 		{
-			var obj = _dbContext.Products.Find(productId);
+			var obj = _dbContext.Product.Find(productId);
 			if (obj != null)
 			{
-				_dbContext.Products.Remove(obj);
+				_dbContext.Product.Remove(obj);
 				_dbContext.SaveChanges();
 			}
 		}
@@ -137,71 +137,71 @@ namespace DiskontPica.Repository
 
 		public IEnumerable<Administrator> GetAllAdministrators()
 		{
-			return _dbContext.Administrators.ToList();
+			return _dbContext.Administrator.ToList();
 		}
 
 		public IEnumerable<Category> GetAllCategories()
 		{
-			return _dbContext.Categories.ToList();
+			return _dbContext.Category.ToList();
 		}
 
 		public IEnumerable<Country> GetAllCountries()
 		{
-			return _dbContext.Countries.ToList();
+			return _dbContext.Country.ToList();
 		}
 
 		public IEnumerable<Customer> GetAllCustomers()
 		{
-			return _dbContext.Customers.ToList();
+			return _dbContext.Customer.ToList();
 		}
 
 		public IEnumerable<OrderItem> GetAllOrderItems()
 		{
-			return _dbContext.OrderItems.ToList();
+			return _dbContext.OrderItem.ToList();
 		}
 
 		public IEnumerable<Order> GetAllOrders()
 		{
-			return _dbContext.Orders.ToList();
+			return _dbContext.Order.ToList();
 		}
 
 		public IEnumerable<Product> GetAllProducts()
 		{
-			return _dbContext.Products.ToList();
+			return _dbContext.Product.ToList();
 		}
 		public Administrator GetAdministratorById(int administratorId)
 		{
-			return _dbContext.Administrators.Find(administratorId);
+			return _dbContext.Administrator.Find(administratorId);
 		}
 
 		public Category GetCategoryById(int categoryId)
 		{
-			return _dbContext.Categories.Find(categoryId);
+			return _dbContext.Category.Find(categoryId);
 		}
 
 		public Country GetCountryById(int countryId)
 		{
-			return _dbContext.Countries.Find(countryId);
+			return _dbContext.Country.Find(countryId);
 		}
 
 		public Customer GetCustomerById(int customerId)
 		{
-			return _dbContext.Customers.Find(customerId);
+			return _dbContext.Customer.Find(customerId);
 		}
 
 		public Order GetOrderById(int orderId)
 		{
-			return _dbContext.Orders.Find(orderId);
+			return _dbContext.Order.Find(orderId);
 		}
 
 		public OrderItem GetOrderItemById(int orderItemId)
 		{
-			return _dbContext.OrderItems.Find(orderItemId);
+			return _dbContext.OrderItem.Find(orderItemId);
 		}
 
 		public Product GetProductById(int productId)
 		{
-			return _dbContext.Products.Find(productId);
+			return _dbContext.Product.Find(productId);
 		}
 
 		public void UpdateAdministrator(Administrator administrator)
@@ -251,28 +251,34 @@ namespace DiskontPica.Repository
 
 		public IEnumerable<Product> GetProductsByCountry(int id)
 		{
-			return _dbContext.Products
+			return _dbContext.Product
 		   .Where(p => p.country.countryId == id)
 		   .ToList();
 		}
 
-		public IEnumerable<Product> GetProjectsByCategory(int id)
+		public IEnumerable<Product> GetProductsByCategory(int id)
 		{
-			return _dbContext.Products
+			return _dbContext.Product
 		   .Where(p => p.category.categoryId == id)
+		   .ToList();
+		}
+		public IEnumerable<Product> GetProductsByAdmin(int id)
+		{
+			return _dbContext.Product
+		   .Where(p => p.administrator.adminId == id)
 		   .ToList();
 		}
 
 		public IEnumerable<Order> GetOrdersByCustomer(int id)
 		{
-			return _dbContext.Orders
+			return _dbContext.Order
 		   .Where(p => p.customer.customerld == id)
 		   .ToList();
 		}
 
 		public IEnumerable<OrderItem> GetOrderItemsByOrder(int id)
 		{
-			return _dbContext.OrderItems
+			return _dbContext.OrderItem
 		   .Where(p => p.order.orderId == id)
 		   .ToList();
 		}
@@ -291,7 +297,7 @@ namespace DiskontPica.Repository
 
 		public Administrator GetAdministratorWithCredentials(string name, string password)
 		{
-			var admin = _dbContext.Administrators.First(u => u.name == name) ?? throw new Exception("User not found");
+			var admin = _dbContext.Administrator.First(u => u.name == name) ?? throw new Exception("User not found");
 
 			var hashedPassword = HashPassword(password, admin.salt);
 
@@ -300,7 +306,7 @@ namespace DiskontPica.Repository
 
 		public Customer GetCustomerWithCredentials(string name, string password)
 		{
-			var customer = _dbContext.Customers.First(u => u.name == name) ?? throw new Exception("User not found");
+			var customer = _dbContext.Customer.First(u => u.name == name) ?? throw new Exception("User not found");
 
 			var hashedPassword = HashPassword(password, customer.salt);
 

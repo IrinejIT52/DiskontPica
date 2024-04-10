@@ -16,28 +16,42 @@ namespace DiskontPica.Controllers
         }
 
 
-        [HttpPost("authenticate")]
+        [HttpPost("admin")]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public IActionResult Authenticate(Principal principal)
+        public IActionResult AuthenticateAdmin(Principal principal)
         {
             var admin = authenticationHelper.AuthenticatePrincipalAdmin(principal);
-            var customer = authenticationHelper.AuthenticatePrincipalCustomer(principal);
+            
             if (admin != null)
             {
                 var tokenString = authenticationHelper.GenerateJwtAdmin(admin);
                 return Ok(new { token = tokenString });
             }
-            else if (customer != null)
-            {
-                var tokenString = authenticationHelper.GenerateJwtCustomer(customer);
-                return Ok(new { token = tokenString });
-            }
+
 
             //Ukoliko autentifikacija nije uspela vraća se status 401
             return Unauthorized();
         }
 
-    }
+		[HttpPost("customer")]
+		[Consumes("application/json")]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+		public IActionResult AuthenticateCustomer(Principal principal)
+		{
+
+			var customer = authenticationHelper.AuthenticatePrincipalCustomer(principal);
+			if (customer != null)
+			{
+				var tokenString = authenticationHelper.GenerateJwtCustomer(customer);
+				return Ok(new { token = tokenString });
+			}
+
+			//Ukoliko autentifikacija nije uspela vraća se status 401
+			return Unauthorized();
+		}
+
+	}
 }

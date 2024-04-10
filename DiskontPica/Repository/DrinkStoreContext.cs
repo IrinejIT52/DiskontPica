@@ -12,13 +12,13 @@ namespace DiskontPica.Repository
 			this.configuration = configuration;
 		}
 
-		public DbSet<Administrator> Administrators { get; set; }
-		public DbSet<Product> Products { get; set; }
-		public DbSet<Category> Categories { get; set; }
-		public DbSet<Country> Countries { get; set; }	
-		public DbSet<Customer> Customers { get; set; }
-		public DbSet<Order> Orders { get; set; }
-		public DbSet<OrderItem> OrderItems { get; set; }
+		public DbSet<Administrator> Administrator { get; set; }
+		public DbSet<Product> Product { get; set; }
+		public DbSet<Category> Category { get; set; }
+		public DbSet<Country> Country { get; set; }	
+		public DbSet<Customer> Customer { get; set; }
+		public DbSet<Order> Order { get; set; }
+		public DbSet<OrderItem> OrderItem { get; set; }
 
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

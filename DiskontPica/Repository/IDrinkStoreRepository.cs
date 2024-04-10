@@ -34,7 +34,9 @@ namespace DiskontPica.Repository
 		void DeleteProduct(int productId);
 
 		IEnumerable<Product> GetProductsByCountry(int id);
-		IEnumerable<Product> GetProjectsByCategory(int id);
+		IEnumerable<Product> GetProductsByCategory(int id);
+		IEnumerable<Product> GetProductsByAdmin(int id);
+
 
 		//Order
 		IEnumerable<Order> GetAllOrders();

@@ -8,6 +8,7 @@ namespace DiskontPica.Profiles
 	{
 		public CustomerProfile() {
 			CreateMap<CustomerCreateDTO, Customer>();
+			CreateMap<CustomerUpdateDTO, Customer>();
 		}
 	}
 }

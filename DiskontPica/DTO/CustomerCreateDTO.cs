@@ -9,5 +9,9 @@ namespace DiskontPica.DTO
 
 		[Required(ErrorMessage = "Password is required")]
 		public string password { get; set; }
+		[Required(ErrorMessage = "Email is required")]
+		public string email { get; set; }
+		[Required(ErrorMessage = "Adress is required")]
+		public string adress { get; set; }
 	}
 }

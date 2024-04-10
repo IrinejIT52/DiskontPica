@@ -8,6 +8,7 @@ namespace DiskontPica.Profiles
 	{
 		public AdministratorProfile() {
 			CreateMap<AdministratorCreateDTO,Administrator>();
+			CreateMap<AdministratorUpdateDTO,Administrator>();
 		}
 	}
 }
