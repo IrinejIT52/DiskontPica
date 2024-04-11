@@ -1,6 +1,7 @@
 ﻿using DiskontPica.Models;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using System.Net.NetworkInformation;
 
 namespace DiskontPica.Repository
@@ -252,34 +253,34 @@ namespace DiskontPica.Repository
 		public IEnumerable<Product> GetProductsByCountry(int id)
 		{
 			return _dbContext.Product
-		   .Where(p => p.country.countryId == id)
+		   .Where(p => p.countryId == id)
 		   .ToList();
 		}
 
 		public IEnumerable<Product> GetProductsByCategory(int id)
 		{
 			return _dbContext.Product
-		   .Where(p => p.category.categoryId == id)
+		   .Where(p => p.categoryId == id)
 		   .ToList();
 		}
 		public IEnumerable<Product> GetProductsByAdmin(int id)
 		{
 			return _dbContext.Product
-		   .Where(p => p.administrator.adminId == id)
+		   .Where(p => p.adminId == id)
 		   .ToList();
 		}
 
 		public IEnumerable<Order> GetOrdersByCustomer(int id)
 		{
 			return _dbContext.Order
-		   .Where(p => p.customer.customerld == id)
+		   .Where(p => p.customerId == id)
 		   .ToList();
 		}
 
 		public IEnumerable<OrderItem> GetOrderItemsByOrder(int id)
 		{
 			return _dbContext.OrderItem
-		   .Where(p => p.order.orderId == id)
+		   .Where(p => p.orderId == id)
 		   .ToList();
 		}
 
@@ -312,5 +313,42 @@ namespace DiskontPica.Repository
 
 			return customer.password == hashedPassword ? customer : null;
 		}
+
+		public IEnumerable<Product> GetProductsByQuery(string? search, string? sortColumn, string? sortOrder)
+		{
+
+			// pretrazivanje
+			IQueryable<Product> productsQuery = _dbContext.Product;
+
+			if (!string.IsNullOrWhiteSpace(search))
+			{
+				productsQuery = productsQuery.Where(p =>
+					p.name.Contains(search) || p.price.ToString().Contains(search));
+			}
+
+			// sortiranje
+			Expression<Func<Product, object>> keySelector = sortColumn?.ToLower() switch
+			{
+				"name" => product => product.name,
+				"price" => product => product.price,
+				"Id" => product => product.productId
+			};
+
+			if(sortOrder?.ToLower() == "desc")
+			{
+				productsQuery =	productsQuery.OrderByDescending(keySelector);
+			}
+			else
+			{
+				productsQuery = productsQuery.OrderBy(keySelector);
+			}
+
+
+			var products = productsQuery.ToList();
+
+			return products;
+		}
+
+
 	}
 }

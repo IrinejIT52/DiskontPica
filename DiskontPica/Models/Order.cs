@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DiskontPica.Models
 {
@@ -6,7 +7,8 @@ namespace DiskontPica.Models
 	{
 		[Key]
 		public int orderId {  get; set; }
-		public Customer customer { get; set; } = new Customer();
+		[ForeignKey("Customer")]
+		public int customerId { get; set; }
 		public decimal finalPrice { get; set; }
 		public DateOnly orderDate {  get; set; }
 		public OrderStatus orderStatus { get; set; }

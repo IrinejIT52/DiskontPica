@@ -36,6 +36,7 @@ namespace DiskontPica.Repository
 		IEnumerable<Product> GetProductsByCountry(int id);
 		IEnumerable<Product> GetProductsByCategory(int id);
 		IEnumerable<Product> GetProductsByAdmin(int id);
+		IEnumerable<Product> GetProductsByQuery(string? search,string? sortColumn,string? sortOrder);
 
 
 		//Order

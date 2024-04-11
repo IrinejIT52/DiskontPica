@@ -121,6 +121,19 @@ namespace DiskontPica.Controllers
 			return Ok(products);
 		}
 
+		[HttpGet("product/{search?}/{sortColumn?}/{sortOrder?}")]
+		public ActionResult<IEnumerable<Product>> GetProductByQuery(string? search=" ",string? sortColumn="Id",string? sortOrder="asc")
+		{
+			var products = _drinkStoreRepository.GetProductsByQuery(search,sortColumn,sortOrder);
+
+			if (products == null || !products.Any())
+			{
+				return NotFound();
+			}
+
+			return Ok(products);
+		}
+
 
 		// Country
 
@@ -504,7 +517,7 @@ namespace DiskontPica.Controllers
 			return NoContent();
 		}
 
-
+		
 
 	}
 }

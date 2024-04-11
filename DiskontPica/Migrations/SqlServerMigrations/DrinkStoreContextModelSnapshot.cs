@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace DiskontPica.Migrations
+namespace DiskontPica.Migrations.SqlServerMigrations
 {
     [DbContext(typeof(DrinkStoreContext))]
     partial class DrinkStoreContextModelSnapshot : ModelSnapshot
@@ -48,7 +48,7 @@ namespace DiskontPica.Migrations
 
                     b.HasKey("adminId");
 
-                    b.ToTable("Administrators");
+                    b.ToTable("Administrator");
                 });
 
             modelBuilder.Entity("DiskontPica.Models.Category", b =>
@@ -69,7 +69,7 @@ namespace DiskontPica.Migrations
 
                     b.HasKey("categoryId");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Category");
                 });
 
             modelBuilder.Entity("DiskontPica.Models.Country", b =>
@@ -86,7 +86,7 @@ namespace DiskontPica.Migrations
 
                     b.HasKey("countryId");
 
-                    b.ToTable("Countries");
+                    b.ToTable("Country");
                 });
 
             modelBuilder.Entity("DiskontPica.Models.Customer", b =>
@@ -119,7 +119,7 @@ namespace DiskontPica.Migrations
 
                     b.HasKey("customerld");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customer");
                 });
 
             modelBuilder.Entity("DiskontPica.Models.Order", b =>
@@ -134,7 +134,7 @@ namespace DiskontPica.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("customerld")
+                    b.Property<int>("customerId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("finalPrice")
@@ -151,9 +151,7 @@ namespace DiskontPica.Migrations
 
                     b.HasKey("orderId");
 
-                    b.HasIndex("customerld");
-
-                    b.ToTable("Orders");
+                    b.ToTable("Order");
                 });
 
             modelBuilder.Entity("DiskontPica.Models.OrderItem", b =>
@@ -178,11 +176,7 @@ namespace DiskontPica.Migrations
 
                     b.HasKey("orderItemId");
 
-                    b.HasIndex("orderId");
-
-                    b.HasIndex("productId");
-
-                    b.ToTable("OrderItems");
+                    b.ToTable("OrderItem");
                 });
 
             modelBuilder.Entity("DiskontPica.Models.Product", b =>
@@ -193,7 +187,7 @@ namespace DiskontPica.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("productId"));
 
-                    b.Property<int>("administratoradminId")
+                    b.Property<int>("administratorId")
                         .HasColumnType("int");
 
                     b.Property<int>("categoryId")
@@ -218,70 +212,7 @@ namespace DiskontPica.Migrations
 
                     b.HasKey("productId");
 
-                    b.HasIndex("administratoradminId");
-
-                    b.HasIndex("categoryId");
-
-                    b.HasIndex("countryId");
-
-                    b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("DiskontPica.Models.Order", b =>
-                {
-                    b.HasOne("DiskontPica.Models.Customer", "customer")
-                        .WithMany()
-                        .HasForeignKey("customerld")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("customer");
-                });
-
-            modelBuilder.Entity("DiskontPica.Models.OrderItem", b =>
-                {
-                    b.HasOne("DiskontPica.Models.Order", "order")
-                        .WithMany()
-                        .HasForeignKey("orderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DiskontPica.Models.Product", "product")
-                        .WithMany()
-                        .HasForeignKey("productId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("order");
-
-                    b.Navigation("product");
-                });
-
-            modelBuilder.Entity("DiskontPica.Models.Product", b =>
-                {
-                    b.HasOne("DiskontPica.Models.Administrator", "administrator")
-                        .WithMany()
-                        .HasForeignKey("administratoradminId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DiskontPica.Models.Category", "category")
-                        .WithMany()
-                        .HasForeignKey("categoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DiskontPica.Models.Country", "country")
-                        .WithMany()
-                        .HasForeignKey("countryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("administrator");
-
-                    b.Navigation("category");
-
-                    b.Navigation("country");
+                    b.ToTable("Product");
                 });
 #pragma warning restore 612, 618
         }

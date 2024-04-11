@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DiskontPica.Models
 {
@@ -11,10 +12,14 @@ namespace DiskontPica.Models
 		public decimal price { get; set; }
 		public int stock { get; set; }
 
-		public Country country { get; set; } = new Country();
-		public Category category { get; set; } = new Category();
+		[ForeignKey("Country")]
+		public int countryId { get; set; }
 
-		public Administrator administrator { get; set; } = new Administrator();
+		[ForeignKey("Category")]
+		public int categoryId { get; set; }
+
+		[ForeignKey("Administrator")]
+		public int adminId { get; set; }
 
 	}
 }
