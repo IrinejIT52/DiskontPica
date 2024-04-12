@@ -1,5 +1,8 @@
 ﻿using DiskontPica.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Security;
 
 namespace DiskontPica.Repository
 {
@@ -11,6 +14,8 @@ namespace DiskontPica.Repository
 		{
 			this.configuration = configuration;
 		}
+
+		
 
 		public DbSet<Administrator> Administrator { get; set; }
 		public DbSet<Product> Product { get; set; }

@@ -1,7 +1,9 @@
 ﻿using DiskontPica.Helper;
+using DiskontPica.Models;
 using DiskontPica.Profiles;
 using DiskontPica.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
@@ -43,11 +45,29 @@ namespace DiskontPica
 				};
 			});
 
+			services.AddAuthorization(options =>
+			{
+				options.AddPolicy(IdentityData.AdminPolicy, p => p.RequireClaim(IdentityData.AdminClaim,"True"));
+				options.AddPolicy(IdentityData.CustomerPolicy,p => p.RequireClaim(IdentityData.CustomerClaim,"True"));
+			});
+
 
 
 			services.AddSwaggerGen(c =>
-			{ 
+			{
+				c.OperationFilter<HeaderFIlter>();
+				c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+				{
+					Name = "Authorization",
+					Type = SecuritySchemeType.Http,
+					Scheme = "Bearer",
+					BearerFormat = "JWT",
+					In = ParameterLocation.Header,
+					Description = "JWT Authorization header. \r\n\r\n Enter the token in the text input below.",
+				});
 			});
+
+			
 		}
 
 
@@ -59,13 +79,18 @@ namespace DiskontPica
 				}
 
 
-		
+				
 
 				app.UseHttpsRedirection();
 
 				app.UseRouting();
 
+				app.UseAuthentication();
+
 				app.UseAuthorization();
+
+				
+
 
 				app.UseEndpoints(endpoints =>
 				{
@@ -82,7 +107,7 @@ namespace DiskontPica
 
 
 
-
+				
 
 
 			}

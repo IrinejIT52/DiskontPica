@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DiskontPica.Models
 {
 	public class Customer
 	{
+
 		[Key]
 		public int customerld { get; set; }
 		public string name { get; set; }
@@ -14,6 +17,8 @@ namespace DiskontPica.Models
 
 		public string salt { get; set; }
 
+		public Boolean customer {  get; set; }
+
 
 
 
@@ -21,6 +26,7 @@ namespace DiskontPica.Models
 		public Customer()
 		{
 			salt = GenerateDefaultSalt();
+			customer = true;
 		}
 
 		private static string GenerateDefaultSalt()

@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace DiskontPica.Migrations.SqlServerMigrations
+namespace DiskontPica.Migrations
 {
     [DbContext(typeof(DrinkStoreContext))]
-    [Migration("20240411151724_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240412190447_InicialContext")]
+    partial class InicialContext
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,6 +32,9 @@ namespace DiskontPica.Migrations.SqlServerMigrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("adminId"));
+
+                    b.Property<bool>("admin")
+                        .HasColumnType("bit");
 
                     b.Property<string>("email")
                         .IsRequired()
@@ -103,6 +106,9 @@ namespace DiskontPica.Migrations.SqlServerMigrations
                     b.Property<string>("adress")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("customer")
+                        .HasColumnType("bit");
 
                     b.Property<string>("email")
                         .IsRequired()
@@ -190,7 +196,7 @@ namespace DiskontPica.Migrations.SqlServerMigrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("productId"));
 
-                    b.Property<int>("administratorId")
+                    b.Property<int>("adminId")
                         .HasColumnType("int");
 
                     b.Property<int>("categoryId")

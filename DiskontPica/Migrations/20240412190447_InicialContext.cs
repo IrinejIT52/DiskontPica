@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace DiskontPica.Migrations.SqlServerMigrations
+namespace DiskontPica.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InicialContext : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,7 +20,8 @@ namespace DiskontPica.Migrations.SqlServerMigrations
                     name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    salt = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    salt = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    admin = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -64,7 +65,8 @@ namespace DiskontPica.Migrations.SqlServerMigrations
                     password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     adress = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    salt = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    salt = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    customer = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -117,7 +119,7 @@ namespace DiskontPica.Migrations.SqlServerMigrations
                     stock = table.Column<int>(type: "int", nullable: false),
                     countryId = table.Column<int>(type: "int", nullable: false),
                     categoryId = table.Column<int>(type: "int", nullable: false),
-                    administratorId = table.Column<int>(type: "int", nullable: false)
+                    adminId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

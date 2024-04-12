@@ -2,6 +2,7 @@
 using DiskontPica.DTO;
 using DiskontPica.Models;
 using DiskontPica.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Sockets;
@@ -24,7 +25,7 @@ namespace DiskontPica.Controllers
 
 
 		//Product
-
+		[Authorize(Policy = IdentityData.AdminPolicy)]
 		[HttpGet("product")]
 		public ActionResult<IEnumerable<Product>> GetAllProducts()
 		{
@@ -32,6 +33,7 @@ namespace DiskontPica.Controllers
 			return Ok(products);
 		}
 
+		[Authorize(Policy = IdentityData.AdminPolicy)]
 		[HttpGet("product/{id}")]
 		public ActionResult<Product> GetProductById(int id)
 		{
@@ -44,6 +46,7 @@ namespace DiskontPica.Controllers
 			return Ok(obj);
 		}
 
+		[Authorize(Policy = IdentityData.AdminPolicy)]
 		[HttpPost("product")]
 		public ActionResult AddProduct([FromBody] Product product)
 		{
@@ -52,6 +55,7 @@ namespace DiskontPica.Controllers
 			return Ok();
 		}
 
+		[Authorize(Policy = IdentityData.AdminPolicy)]
 		[HttpPut("product/{id}")]
 		public ActionResult UpdateProduct(int id, [FromBody] Product product)
 		{
@@ -67,6 +71,7 @@ namespace DiskontPica.Controllers
 			return Ok();
 		}
 
+		[Authorize(Policy = IdentityData.AdminPolicy)]
 		[HttpDelete("product/{id}")]
 		public ActionResult DeleteProduct(int id)
 		{
@@ -82,6 +87,7 @@ namespace DiskontPica.Controllers
 			return NoContent();
 		}
 
+		[Authorize(Policy = IdentityData.CustomerPolicy)]
 		[HttpGet("product/by-county/{id}")]
 		public ActionResult<IEnumerable<Product>> GetProductByCountry(int id)
 		{
@@ -95,6 +101,7 @@ namespace DiskontPica.Controllers
 			return Ok(products);
 		}
 
+		[Authorize(Policy = IdentityData.CustomerPolicy)]
 		[HttpGet("product/by-category/{id}")]
 		public ActionResult<IEnumerable<Category>> GetProductByCategory(int id)
 		{
@@ -108,6 +115,7 @@ namespace DiskontPica.Controllers
 			return Ok(products);
 		}
 
+		[Authorize(Policy = IdentityData.AdminPolicy)]
 		[HttpGet("product/by-admin/{id}")]
 		public ActionResult<IEnumerable<Category>> GetProductByAdmin(int id)
 		{
@@ -121,6 +129,7 @@ namespace DiskontPica.Controllers
 			return Ok(products);
 		}
 
+		[Authorize(Policy = IdentityData.CustomerPolicy)]
 		[HttpGet("product/{search?}/{sortColumn?}/{sortOrder?}")]
 		public ActionResult<IEnumerable<Product>> GetProductByQuery(string? search=" ",string? sortColumn="Id",string? sortOrder="asc")
 		{
@@ -136,7 +145,7 @@ namespace DiskontPica.Controllers
 
 
 		// Country
-
+		[Authorize(Policy = IdentityData.AdminPolicy)]
 		[HttpGet("country")]
 		public ActionResult<IEnumerable<Country>> GetAllCountries()
 		{
@@ -144,6 +153,7 @@ namespace DiskontPica.Controllers
 			return Ok(obj);
 		}
 
+		[Authorize(Policy = IdentityData.AdminPolicy)]
 		[HttpGet("country/{id}")]
 		public ActionResult<Country> GetCountryById(int id)
 		{
@@ -156,6 +166,7 @@ namespace DiskontPica.Controllers
 			return Ok(obj);
 		}
 
+		[Authorize(Policy = IdentityData.AdminPolicy)]
 		[HttpPost("country")]
 		public ActionResult AddCountry([FromBody] Country country)
 		{
@@ -164,6 +175,7 @@ namespace DiskontPica.Controllers
 			return Ok();
 		}
 
+		[Authorize(Policy = IdentityData.AdminPolicy)]
 		[HttpPut("country/{id}")]
 		public ActionResult UpdateCountry(int id, [FromBody] Country country)
 		{
@@ -179,6 +191,7 @@ namespace DiskontPica.Controllers
 			return Ok();
 		}
 
+		[Authorize(Policy = IdentityData.AdminPolicy)]
 		[HttpDelete("country/{id}")]
 		public ActionResult DeleteCountry(int id)
 		{
@@ -196,6 +209,7 @@ namespace DiskontPica.Controllers
 
 		// Category
 
+		[Authorize(Policy = IdentityData.AdminPolicy)]
 		[HttpGet("category")]
 		public ActionResult<IEnumerable<Category>> GetAllCategories()
 		{
@@ -203,6 +217,7 @@ namespace DiskontPica.Controllers
 			return Ok(obj);
 		}
 
+		[Authorize(Policy = IdentityData.AdminPolicy)]
 		[HttpGet("category/{id}")]
 		public ActionResult<Category> GetCategoryById(int id)
 		{
@@ -215,6 +230,7 @@ namespace DiskontPica.Controllers
 			return Ok(obj);
 		}
 
+		[Authorize(Policy = IdentityData.AdminPolicy)]
 		[HttpPost("category")]
 		public ActionResult AddCategory([FromBody] Category category)
 		{
@@ -223,6 +239,7 @@ namespace DiskontPica.Controllers
 			return Ok();
 		}
 
+		[Authorize(Policy = IdentityData.AdminPolicy)]
 		[HttpPut("category/{id}")]
 		public ActionResult UpdateCategory(int id, [FromBody] Category category)
 		{
@@ -238,6 +255,7 @@ namespace DiskontPica.Controllers
 			return Ok();
 		}
 
+		[Authorize(Policy = IdentityData.AdminPolicy)]
 		[HttpDelete("category/{id}")]
 		public ActionResult DeleteCategory(int id)
 		{
@@ -254,7 +272,7 @@ namespace DiskontPica.Controllers
 		}
 
 		// Order
-
+		[Authorize(Policy = IdentityData.AdminPolicy)]
 		[HttpGet("order")]
 		public ActionResult<IEnumerable<Order>> GetAllOrders()
 		{
@@ -262,6 +280,7 @@ namespace DiskontPica.Controllers
 			return Ok(obj);
 		}
 
+		[Authorize(Policy = IdentityData.AdminPolicy)]
 		[HttpGet("order/{id}")]
 		public ActionResult<Order> GetOrderById(int id)
 		{
@@ -274,6 +293,7 @@ namespace DiskontPica.Controllers
 			return Ok(obj);
 		}
 
+		[Authorize(Policy = IdentityData.CustomerPolicy)]
 		[HttpPost("order")]
 		public ActionResult AddOrder([FromBody] Order order)
 		{
@@ -282,6 +302,7 @@ namespace DiskontPica.Controllers
 			return Ok();
 		}
 
+		[Authorize(Policy = IdentityData.AdminPolicy)]
 		[HttpPut("order/{id}")]
 		public ActionResult UpdateOrder(int id, [FromBody] Order order)
 		{
@@ -297,6 +318,7 @@ namespace DiskontPica.Controllers
 			return Ok();
 		}
 
+		[Authorize(Policy = IdentityData.AdminPolicy)]
 		[HttpDelete("order/{id}")]
 		public ActionResult DeleteOrder(int id)
 		{
@@ -312,6 +334,7 @@ namespace DiskontPica.Controllers
 			return NoContent();
 		}
 
+		[Authorize(Policy = IdentityData.AdminPolicy)]
 		[HttpGet("order/by-customer/{id}")]
 		public ActionResult<IEnumerable<Order>> GetOrderByCustomer(int id)
 		{
@@ -327,6 +350,7 @@ namespace DiskontPica.Controllers
 
 		// OrderItem
 
+		[Authorize(Policy = IdentityData.AdminPolicy)]
 		[HttpGet("orderItem")]
 		public ActionResult<IEnumerable<OrderItem>> GetAllOrderItems()
 		{
@@ -334,6 +358,7 @@ namespace DiskontPica.Controllers
 			return Ok(obj);
 		}
 
+		[Authorize(Policy = IdentityData.AdminPolicy)]
 		[HttpGet("orderItem/{id}")]
 		public ActionResult<OrderItem> GetOrderItemById(int id)
 		{
@@ -346,6 +371,8 @@ namespace DiskontPica.Controllers
 			return Ok(obj);
 		}
 
+
+		[Authorize(Policy = IdentityData.AdminPolicy)]
 		[HttpPost("orderItem")]
 		public ActionResult AddOrderItem([FromBody] OrderItem orderItem)
 		{
@@ -354,6 +381,7 @@ namespace DiskontPica.Controllers
 			return Ok();
 		}
 
+		[Authorize(Policy = IdentityData.AdminPolicy)]
 		[HttpPut("orderItem/{id}")]
 		public ActionResult UpdateOrderItem(int id, [FromBody] OrderItem orderItem)
 		{
@@ -369,6 +397,7 @@ namespace DiskontPica.Controllers
 			return Ok();
 		}
 
+		[Authorize(Policy = IdentityData.AdminPolicy)]
 		[HttpDelete("orderItem/{id}")]
 		public ActionResult DeleteOrderItem(int id)
 		{
@@ -384,6 +413,7 @@ namespace DiskontPica.Controllers
 			return NoContent();
 		}
 
+		[Authorize(Policy = IdentityData.AdminPolicy)]
 		[HttpGet("orderItem/by-order/{id}")]
 		public ActionResult<IEnumerable<OrderItem>> GetOrderItemByOrder(int id)
 		{
@@ -399,6 +429,7 @@ namespace DiskontPica.Controllers
 
 		// Administrator
 
+		[Authorize(Policy = IdentityData.AdminPolicy)]
 		[HttpGet("administrator")]
 		public ActionResult<IEnumerable<Administrator>> GetAllAdministrators()
 		{
@@ -406,6 +437,7 @@ namespace DiskontPica.Controllers
 			return Ok(obj);
 		}
 
+		[Authorize(Policy = IdentityData.AdminPolicy)]
 		[HttpGet("administrator/{id}")]
 		public ActionResult<Administrator> GetAdminById(int id)
 		{
@@ -427,6 +459,7 @@ namespace DiskontPica.Controllers
 			return Ok();
 		}
 
+		[Authorize(Policy = IdentityData.AdminPolicy)]
 		[HttpPut("administrator/{id}")]
 		public ActionResult UpdateAdministrator(int id, [FromBody] AdministratorUpdateDTO adminUpdateDTO)
 		{
@@ -442,6 +475,7 @@ namespace DiskontPica.Controllers
 			return Ok();
 		}
 
+		[Authorize(Policy = IdentityData.AdminPolicy)]
 		[HttpDelete("administrator/{id}")]
 		public ActionResult DeleteAdministrator(int id)
 		{
@@ -460,6 +494,7 @@ namespace DiskontPica.Controllers
 
 		// Customer
 
+		[Authorize(Policy = IdentityData.AdminPolicy)]
 		[HttpGet("customer")]
 		public ActionResult<IEnumerable<Customer>> GetAllCustomers()
 		{
@@ -467,6 +502,7 @@ namespace DiskontPica.Controllers
 			return Ok(obj);
 		}
 
+		[Authorize(Policy = IdentityData.AdminPolicy)]
 		[HttpGet("customer/{id}")]
 		public ActionResult<Customer> GetCustomerById(int id)
 		{
@@ -488,6 +524,7 @@ namespace DiskontPica.Controllers
 			return Ok();
 		}
 
+		[Authorize(Policy = IdentityData.AdminPolicy)]
 		[HttpPut("customer/{id}")]
 		public ActionResult UpdateCustomer(int id, [FromBody] CustomerUpdateDTO customerUpdateDTO)
 		{
@@ -503,6 +540,7 @@ namespace DiskontPica.Controllers
 			return Ok();
 		}
 
+		[Authorize(Policy = IdentityData.AdminPolicy)]
 		[HttpDelete("customer/{id}")]
 		public ActionResult DeleteCustomer(int id)
 		{

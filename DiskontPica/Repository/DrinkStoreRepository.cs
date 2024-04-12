@@ -298,20 +298,30 @@ namespace DiskontPica.Repository
 
 		public Administrator GetAdministratorWithCredentials(string name, string password)
 		{
-			var admin = _dbContext.Administrator.First(u => u.name == name) ?? throw new Exception("User not found");
 
-			var hashedPassword = HashPassword(password, admin.salt);
+			var admin = _dbContext.Administrator.ToList().FirstOrDefault(u => u.name == name,defaultValue:null);
+			if (admin != null)
+			{
+				var hashedPassword = HashPassword(password, admin.salt);
 
-			return admin.password == hashedPassword ? admin : null;
+				return admin.password == hashedPassword ? admin : null;
+			}
+
+			return null;
 		}
 
 		public Customer GetCustomerWithCredentials(string name, string password)
 		{
-			var customer = _dbContext.Customer.First(u => u.name == name) ?? throw new Exception("User not found");
 
-			var hashedPassword = HashPassword(password, customer.salt);
+			var customer = _dbContext.Customer.ToList().FirstOrDefault(u => u.name == name, defaultValue: null);
+			if (customer != null)
+			{
+				var hashedPassword = HashPassword(password, customer.salt);
 
-			return customer.password == hashedPassword ? customer : null;
+				return customer.password == hashedPassword ? customer : null;
+			}
+			return null;
+			
 		}
 
 		public IEnumerable<Product> GetProductsByQuery(string? search, string? sortColumn, string? sortOrder)

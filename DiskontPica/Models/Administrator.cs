@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DiskontPica.Models
 {
 	public class Administrator
 	{
+
 		[Key]
 		public int adminId { get; set; }
 		public string name { get; set; }
@@ -14,11 +17,14 @@ namespace DiskontPica.Models
 
 		public string salt { get; set; }
 
+		public Boolean admin {  get; set; }
+
 
 
 		public Administrator()
 		{
 			salt = GenerateDefaultSalt();
+			admin = true;
 		}
 
 		private static string GenerateDefaultSalt()
