@@ -20,8 +20,7 @@ namespace DiskontPica.Migrations
                     name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    salt = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    admin = table.Column<bool>(type: "bit", nullable: false)
+                    salt = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -65,8 +64,7 @@ namespace DiskontPica.Migrations
                     password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     adress = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    salt = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    customer = table.Column<bool>(type: "bit", nullable: false)
+                    salt = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {

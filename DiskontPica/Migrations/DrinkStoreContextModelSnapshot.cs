@@ -30,9 +30,6 @@ namespace DiskontPica.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("adminId"));
 
-                    b.Property<bool>("admin")
-                        .HasColumnType("bit");
-
                     b.Property<string>("email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -103,9 +100,6 @@ namespace DiskontPica.Migrations
                     b.Property<string>("adress")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("customer")
-                        .HasColumnType("bit");
 
                     b.Property<string>("email")
                         .IsRequired()

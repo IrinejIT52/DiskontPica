@@ -17,7 +17,6 @@ namespace DiskontPica.Models
 
 		public string salt { get; set; }
 
-		public Boolean customer {  get; set; }
 
 
 
@@ -26,7 +25,6 @@ namespace DiskontPica.Models
 		public Customer()
 		{
 			salt = GenerateDefaultSalt();
-			customer = true;
 		}
 
 		private static string GenerateDefaultSalt()

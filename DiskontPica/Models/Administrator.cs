@@ -17,14 +17,12 @@ namespace DiskontPica.Models
 
 		public string salt { get; set; }
 
-		public Boolean admin {  get; set; }
 
 
 
 		public Administrator()
 		{
 			salt = GenerateDefaultSalt();
-			admin = true;
 		}
 
 		private static string GenerateDefaultSalt()

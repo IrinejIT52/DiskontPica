@@ -131,7 +131,7 @@ namespace DiskontPica.Controllers
 
 		[Authorize(Policy = IdentityData.CustomerPolicy)]
 		[HttpGet("product/{search?}/{sortColumn?}/{sortOrder?}")]
-		public ActionResult<IEnumerable<Product>> GetProductByQuery(string? search=" ",string? sortColumn="Id",string? sortOrder="asc")
+		public ActionResult<IEnumerable<Product>> GetProductByQuery(string? search=" ",string? sortColumn=" ",string? sortOrder="asc")
 		{
 			var products = _drinkStoreRepository.GetProductsByQuery(search,sortColumn,sortOrder);
 

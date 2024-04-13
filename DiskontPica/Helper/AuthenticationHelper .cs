@@ -42,7 +42,8 @@ namespace DiskontPica.Helper
 			{
 				new Claim("name", principal.name),
 				new Claim("email", principal.email),
-				new Claim("admin", principal.admin.ToString())
+				new Claim("admin", "True"),
+				new Claim("customer", "True")
 			};
 
 
@@ -64,7 +65,7 @@ namespace DiskontPica.Helper
 				new Claim("name", principal.name),
 				new Claim("email", principal.email),
 				new Claim("adress", principal.adress),
-				new Claim("customer",principal.customer.ToString())
+				new Claim("customer","True")
 			};
 
 

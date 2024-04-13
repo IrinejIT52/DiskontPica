@@ -333,18 +333,18 @@ namespace DiskontPica.Repository
 			if (!string.IsNullOrWhiteSpace(search))
 			{
 				productsQuery = productsQuery.Where(p =>
-					p.name.Contains(search) || p.price.ToString().Contains(search));
+					p.name.Contains(search.Trim()) || p.price.ToString().Contains(search.Trim()));
 			}
 
 			// sortiranje
-			Expression<Func<Product, object>> keySelector = sortColumn?.ToLower() switch
+			Expression<Func<Product, object>> keySelector = sortColumn?.ToLower().Trim() switch
 			{
 				"name" => product => product.name,
 				"price" => product => product.price,
-				"Id" => product => product.productId
+				_ => product => product.productId
 			};
 
-			if(sortOrder?.ToLower() == "desc")
+			if(sortOrder?.ToLower().Trim() == "desc")
 			{
 				productsQuery =	productsQuery.OrderByDescending(keySelector);
 			}

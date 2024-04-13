@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DiskontPica.Migrations
 {
     [DbContext(typeof(DrinkStoreContext))]
-    [Migration("20240412190447_InicialContext")]
+    [Migration("20240413131649_InicialContext")]
     partial class InicialContext
     {
         /// <inheritdoc />
@@ -32,9 +32,6 @@ namespace DiskontPica.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("adminId"));
-
-                    b.Property<bool>("admin")
-                        .HasColumnType("bit");
 
                     b.Property<string>("email")
                         .IsRequired()
@@ -106,9 +103,6 @@ namespace DiskontPica.Migrations
                     b.Property<string>("adress")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("customer")
-                        .HasColumnType("bit");
 
                     b.Property<string>("email")
                         .IsRequired()
