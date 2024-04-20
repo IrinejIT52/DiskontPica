@@ -9,7 +9,7 @@ namespace DiskontPica.Models
 	{
 
 		[Key]
-		public int customerld { get; set; }
+		public int customerId { get; set; }
 		public string name { get; set; }
 		public string password { get; set; }
 		public string email { get; set; }

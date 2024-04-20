@@ -49,7 +49,7 @@ namespace DiskontPica.Repository
 
 		public void AddOrder(Order order)
 		{
-			_dbContext.Order.Add(order);
+			_dbContext.Orders.Add(order);
 			_dbContext.SaveChanges();
 		}
 
@@ -107,10 +107,10 @@ namespace DiskontPica.Repository
 
 		public void DeleteOrder(int orderId)
 		{
-			var obj = _dbContext.Order.Find(orderId);
+			var obj = _dbContext.Orders.Find(orderId);
 			if (obj != null)
 			{
-				_dbContext.Order.Remove(obj);
+				_dbContext.Orders.Remove(obj);
 				_dbContext.SaveChanges();
 			}
 		}
@@ -163,7 +163,7 @@ namespace DiskontPica.Repository
 
 		public IEnumerable<Order> GetAllOrders()
 		{
-			return _dbContext.Order.ToList();
+			return _dbContext.Orders.ToList();
 		}
 
 		public IEnumerable<Product> GetAllProducts()
@@ -192,7 +192,7 @@ namespace DiskontPica.Repository
 
 		public Order GetOrderById(int orderId)
 		{
-			return _dbContext.Order.Find(orderId);
+			return _dbContext.Orders.Find(orderId);
 		}
 
 		public OrderItem GetOrderItemById(int orderItemId)
@@ -272,7 +272,7 @@ namespace DiskontPica.Repository
 
 		public IEnumerable<Order> GetOrdersByCustomer(int id)
 		{
-			return _dbContext.Order
+			return _dbContext.Orders
 		   .Where(p => p.customerId == id)
 		   .ToList();
 		}

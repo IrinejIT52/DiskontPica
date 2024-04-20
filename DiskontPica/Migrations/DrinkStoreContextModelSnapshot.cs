@@ -91,11 +91,11 @@ namespace DiskontPica.Migrations
 
             modelBuilder.Entity("DiskontPica.Models.Customer", b =>
                 {
-                    b.Property<int>("customerld")
+                    b.Property<int>("customerId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("customerld"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("customerId"));
 
                     b.Property<string>("adress")
                         .IsRequired()
@@ -117,7 +117,7 @@ namespace DiskontPica.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("customerld");
+                    b.HasKey("customerId");
 
                     b.ToTable("Customer");
                 });
@@ -151,7 +151,7 @@ namespace DiskontPica.Migrations
 
                     b.HasKey("orderId");
 
-                    b.ToTable("Order");
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("DiskontPica.Models.OrderItem", b =>

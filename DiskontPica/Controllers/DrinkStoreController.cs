@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using Azure.Messaging;
 using DiskontPica.DTO;
 using DiskontPica.Models;
 using DiskontPica.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using System.Net.Sockets;
 
 namespace DiskontPica.Controllers
@@ -30,6 +32,10 @@ namespace DiskontPica.Controllers
 		public ActionResult<IEnumerable<Product>> GetAllProducts()
 		{
 			var products = _drinkStoreRepository.GetAllProducts();
+			if(products.IsNullOrEmpty())
+			{
+				return NotFound("No products");
+			}
 			return Ok(products);
 		}
 
@@ -63,7 +69,7 @@ namespace DiskontPica.Controllers
 
 			if (existingProduct == null)
 			{
-				return NotFound();
+				return NotFound("Product not found");
 			}
 
 			_drinkStoreRepository.UpdateProduct(existingProduct);
@@ -79,12 +85,12 @@ namespace DiskontPica.Controllers
 
 			if (existingProduct == null)
 			{
-				return NotFound();
+				return NotFound("Product not found");
 			}
 
 			_drinkStoreRepository.DeleteProduct(id);
 
-			return NoContent();
+			return Ok();
 		}
 
 		[Authorize(Policy = IdentityData.CustomerPolicy)]
@@ -95,7 +101,7 @@ namespace DiskontPica.Controllers
 
 			if (products == null || !products.Any())
 			{
-				return NotFound();
+				return NotFound("No products found for that country");
 			}
 
 			return Ok(products);
@@ -109,7 +115,7 @@ namespace DiskontPica.Controllers
 
 			if (products == null || !products.Any())
 			{
-				return NotFound();
+				return NotFound("No products found for that category");
 			}
 
 			return Ok(products);
@@ -123,13 +129,13 @@ namespace DiskontPica.Controllers
 
 			if (products == null || !products.Any())
 			{
-				return NotFound();
+				return NotFound("Admin has no products");
 			}
 
 			return Ok(products);
 		}
 
-		[Authorize(Policy = IdentityData.CustomerPolicy)]
+		[AllowAnonymous]
 		[HttpGet("product/{search?}/{sortColumn?}/{sortOrder?}")]
 		public ActionResult<IEnumerable<Product>> GetProductByQuery(string? search=" ",string? sortColumn=" ",string? sortOrder="asc")
 		{
@@ -137,7 +143,7 @@ namespace DiskontPica.Controllers
 
 			if (products == null || !products.Any())
 			{
-				return NotFound();
+				return NotFound("No products found");
 			}
 
 			return Ok(products);
@@ -150,6 +156,11 @@ namespace DiskontPica.Controllers
 		public ActionResult<IEnumerable<Country>> GetAllCountries()
 		{
 			var obj = _drinkStoreRepository.GetAllCountries();
+			if (obj.IsNullOrEmpty())
+			{
+				return NotFound("No countries");
+			}
+		
 			return Ok(obj);
 		}
 
@@ -160,7 +171,7 @@ namespace DiskontPica.Controllers
 			var obj = _drinkStoreRepository.GetCountryById(id);
 			if (obj == null)
 			{
-				return NotFound();
+				return NotFound("No country found");
 			}
 
 			return Ok(obj);
@@ -183,7 +194,7 @@ namespace DiskontPica.Controllers
 
 			if (existingCountry == null)
 			{
-				return NotFound();
+				return NotFound("No country found");
 			}
 
 			_drinkStoreRepository.UpdateCountry(existingCountry);
@@ -199,12 +210,12 @@ namespace DiskontPica.Controllers
 
 			if (existingCountry == null)
 			{
-				return NotFound();
+				return NotFound("No country found");
 			}
 
 			_drinkStoreRepository.DeleteCountry(id);
 
-			return NoContent();
+			return Ok();
 		}
 
 		// Category
@@ -214,6 +225,10 @@ namespace DiskontPica.Controllers
 		public ActionResult<IEnumerable<Category>> GetAllCategories()
 		{
 			var obj = _drinkStoreRepository.GetAllCategories();
+			if (obj.IsNullOrEmpty())
+			{
+				return NotFound("No categories found");
+			}
 			return Ok(obj);
 		}
 
@@ -224,7 +239,7 @@ namespace DiskontPica.Controllers
 			var obj = _drinkStoreRepository.GetCategoryById(id);
 			if (obj == null)
 			{
-				return NotFound();
+				return NotFound("No category found");
 			}
 
 			return Ok(obj);
@@ -247,7 +262,7 @@ namespace DiskontPica.Controllers
 
 			if (existingCategory == null)
 			{
-				return NotFound();
+				return NotFound("No category found");
 			}
 
 			_drinkStoreRepository.UpdateCategory(existingCategory);
@@ -263,12 +278,12 @@ namespace DiskontPica.Controllers
 
 			if (existingCategory == null)
 			{
-				return NotFound();
+				return NotFound("No category found");
 			}
 
 			_drinkStoreRepository.DeleteCategory(id);
 
-			return NoContent();
+			return Ok();
 		}
 
 		// Order
@@ -277,6 +292,10 @@ namespace DiskontPica.Controllers
 		public ActionResult<IEnumerable<Order>> GetAllOrders()
 		{
 			var obj = _drinkStoreRepository.GetAllOrders();
+			if (obj.IsNullOrEmpty())
+			{
+				return NotFound("No orders found");
+			}
 			return Ok(obj);
 		}
 
@@ -287,7 +306,7 @@ namespace DiskontPica.Controllers
 			var obj = _drinkStoreRepository.GetOrderById(id);
 			if (obj == null)
 			{
-				return NotFound();
+				return NotFound("No order found");
 			}
 
 			return Ok(obj);
@@ -297,7 +316,26 @@ namespace DiskontPica.Controllers
 		[HttpPost("order")]
 		public ActionResult AddOrder([FromBody] Order order)
 		{
+
 			_drinkStoreRepository.AddOrder(order);
+
+			foreach (var item in order.orderItems)
+			{
+				item.orderId = order.orderId;
+				item.orderItemId = (order.orderItems.IndexOf(item))+1;
+				AddOrderItem(item);
+			}
+
+			IEnumerable<OrderItem> orderItems = _drinkStoreRepository.GetOrderItemsByOrder(order.orderId);
+
+			decimal total = 0;
+			foreach (var item in orderItems)
+			{
+				total = item.priceQuantity + total;
+			}
+			order.finalPrice = total;
+
+			UpdateOrder(order.orderId, order);
 
 			return Ok();
 		}
@@ -310,9 +348,10 @@ namespace DiskontPica.Controllers
 
 			if (existingOrder == null)
 			{
-				return NotFound();
+				return NotFound("No order found");
 			}
 
+		
 			_drinkStoreRepository.UpdateOrder(existingOrder);
 
 			return Ok();
@@ -326,7 +365,7 @@ namespace DiskontPica.Controllers
 
 			if (existingOrder == null)
 			{
-				return NotFound();
+				return NotFound("No order found");
 			}
 
 			_drinkStoreRepository.DeleteOrder(id);
@@ -342,7 +381,7 @@ namespace DiskontPica.Controllers
 
 			if (orders == null || !orders.Any())
 			{
-				return NotFound();
+				return NotFound("No orders for customer found");
 			}
 
 			return Ok(orders);
@@ -355,6 +394,10 @@ namespace DiskontPica.Controllers
 		public ActionResult<IEnumerable<OrderItem>> GetAllOrderItems()
 		{
 			var obj = _drinkStoreRepository.GetAllOrderItems();
+			if (obj.IsNullOrEmpty())
+			{
+				return NotFound("No order items found");
+			}
 			return Ok(obj);
 		}
 
@@ -365,20 +408,33 @@ namespace DiskontPica.Controllers
 			var obj = _drinkStoreRepository.GetOrderItemById(id);
 			if (obj == null)
 			{
-				return NotFound();
+				return NotFound("No order item found");
 			}
 
 			return Ok(obj);
 		}
 
 
-		[Authorize(Policy = IdentityData.AdminPolicy)]
+		[Authorize(Policy = IdentityData.CustomerPolicy)]
 		[HttpPost("orderItem")]
 		public ActionResult AddOrderItem([FromBody] OrderItem orderItem)
 		{
-			_drinkStoreRepository.AddOrderItem(orderItem);
+			Product product = _drinkStoreRepository.GetProductById(orderItem.productId);
 
-			return Ok();
+			if(product.stock < orderItem.quantity)
+			{
+				return Ok("Not enough stock of product");
+			}
+			else
+			{
+				orderItem.priceQuantity = orderItem.quantity * product.price;
+
+				_drinkStoreRepository.AddOrderItem(orderItem);	
+
+				return Ok();
+			}
+
+			
 		}
 
 		[Authorize(Policy = IdentityData.AdminPolicy)]
@@ -389,7 +445,7 @@ namespace DiskontPica.Controllers
 
 			if (existingOrderItem == null)
 			{
-				return NotFound();
+				return NotFound("No order item found");
 			}
 
 			_drinkStoreRepository.UpdateOrderItem(existingOrderItem);
@@ -405,12 +461,12 @@ namespace DiskontPica.Controllers
 
 			if (existingOrderItem == null)
 			{
-				return NotFound();
+				return NotFound("No order item found");
 			}
 
 			_drinkStoreRepository.DeleteOrderItem(id);
 
-			return NoContent();
+			return Ok();
 		}
 
 		[Authorize(Policy = IdentityData.AdminPolicy)]
@@ -421,7 +477,7 @@ namespace DiskontPica.Controllers
 
 			if (orderItems == null || !orderItems.Any())
 			{
-				return NotFound();
+				return NotFound("No order items for that order");
 			}
 
 			return Ok(orderItems);
@@ -434,6 +490,10 @@ namespace DiskontPica.Controllers
 		public ActionResult<IEnumerable<Administrator>> GetAllAdministrators()
 		{
 			var obj = _drinkStoreRepository.GetAllAdministrators();
+			if (obj.IsNullOrEmpty())
+			{
+				return NotFound("No administrator found");
+			}
 			return Ok(obj);
 		}
 
@@ -444,12 +504,13 @@ namespace DiskontPica.Controllers
 			var obj = _drinkStoreRepository.GetAdministratorById(id);
 			if (obj == null)
 			{
-				return NotFound();
+				return NotFound("No administrator found");
 			}
 
 			return Ok(obj);
 		}
 
+		
 		[HttpPost("administrator")]
 		public ActionResult AddAdministrator([FromBody] AdministratorCreateDTO adminCreateDTO)
 		{
@@ -466,7 +527,7 @@ namespace DiskontPica.Controllers
 			var existingAdmin = _drinkStoreRepository.GetAdministratorById(id);
 			if (existingAdmin == null)
 			{
-				return NotFound();
+				return NotFound("No administrator found");
 			}
 
 			_mapper.Map(adminUpdateDTO, existingAdmin);
@@ -482,12 +543,12 @@ namespace DiskontPica.Controllers
 			var existingAdmin = _drinkStoreRepository.GetAdministratorById(id);
 			if (existingAdmin == null)
 			{
-				return NotFound();
+				return NotFound("No administrator found");
 			}
 
 			_drinkStoreRepository.DeleteAdministrator(id);
 
-			return NoContent();
+			return Ok();
 		}
 
 
@@ -499,6 +560,10 @@ namespace DiskontPica.Controllers
 		public ActionResult<IEnumerable<Customer>> GetAllCustomers()
 		{
 			var obj = _drinkStoreRepository.GetAllCustomers();
+			if (obj.IsNullOrEmpty())
+			{
+				return NotFound("No customers found");
+			}
 			return Ok(obj);
 		}
 
@@ -509,12 +574,13 @@ namespace DiskontPica.Controllers
 			var obj = _drinkStoreRepository.GetCustomerById(id);
 			if (obj == null)
 			{
-				return NotFound();
+				return NotFound("No custmore found");
 			}
 
 			return Ok(obj);
 		}
 
+		[AllowAnonymous]
 		[HttpPost("customer")]
 		public ActionResult AddCustomer([FromBody] CustomerCreateDTO customerCreateDTO)
 		{
@@ -531,7 +597,7 @@ namespace DiskontPica.Controllers
 			var existingCustomer = _drinkStoreRepository.GetCustomerById(id);
 			if (existingCustomer == null)
 			{
-				return NotFound();
+				return NotFound("No customer found");
 			}
 
 			_mapper.Map(customerUpdateDTO, existingCustomer);
@@ -547,12 +613,12 @@ namespace DiskontPica.Controllers
 			var existingCustomer = _drinkStoreRepository.GetCustomerById(id);
 			if (existingCustomer == null)
 			{
-				return NotFound();
+				return NotFound("No customer found");
 			}
 
 			_drinkStoreRepository.DeleteCustomers(id);
 
-			return NoContent();
+			return Ok();
 		}
 
 		

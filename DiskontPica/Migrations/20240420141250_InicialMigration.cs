@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DiskontPica.Migrations
 {
     /// <inheritdoc />
-    public partial class InicialContext : Migration
+    public partial class InicialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -58,7 +58,7 @@ namespace DiskontPica.Migrations
                 name: "Customer",
                 columns: table => new
                 {
-                    customerld = table.Column<int>(type: "int", nullable: false)
+                    customerId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     password = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -68,25 +68,7 @@ namespace DiskontPica.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Customer", x => x.customerld);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Order",
-                columns: table => new
-                {
-                    orderId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    customerId = table.Column<int>(type: "int", nullable: false),
-                    finalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    orderDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    orderStatus = table.Column<int>(type: "int", nullable: false),
-                    orderType = table.Column<int>(type: "int", nullable: false),
-                    addiitionalInfo = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Order", x => x.orderId);
+                    table.PrimaryKey("PK_Customer", x => x.customerId);
                 });
 
             migrationBuilder.CreateTable(
@@ -103,6 +85,24 @@ namespace DiskontPica.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OrderItem", x => x.orderItemId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    orderId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    customerId = table.Column<int>(type: "int", nullable: false),
+                    finalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    orderDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    orderStatus = table.Column<int>(type: "int", nullable: false),
+                    orderType = table.Column<int>(type: "int", nullable: false),
+                    addiitionalInfo = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.orderId);
                 });
 
             migrationBuilder.CreateTable(
@@ -141,10 +141,10 @@ namespace DiskontPica.Migrations
                 name: "Customer");
 
             migrationBuilder.DropTable(
-                name: "Order");
+                name: "OrderItem");
 
             migrationBuilder.DropTable(
-                name: "OrderItem");
+                name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "Product");

@@ -9,6 +9,8 @@ namespace DiskontPica.Models
 		public int orderId {  get; set; }
 		[ForeignKey("Customer")]
 		public int customerId { get; set; }
+		[NotMapped]
+		public List<OrderItem>orderItems { get; set; }
 		public decimal finalPrice { get; set; }
 		public DateOnly orderDate {  get; set; }
 		public OrderStatus orderStatus { get; set; }

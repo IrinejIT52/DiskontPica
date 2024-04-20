@@ -16,4 +16,6 @@ namespace DiskontPica.Models
 		public decimal priceQuantity { get; set; }
 
 	}
+
+	
 }
