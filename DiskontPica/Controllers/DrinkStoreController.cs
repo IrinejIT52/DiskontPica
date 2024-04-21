@@ -321,6 +321,13 @@ namespace DiskontPica.Controllers
 
 			foreach (var item in order.orderItems)
 			{
+				Product product = _drinkStoreRepository.GetProductById(item.productId);
+				if (product.stock < item.quantity)
+				{
+					return NotFound("Not enough stock of product: "+ product.name);
+				}
+
+
 				item.orderId = order.orderId;
 				item.orderItemId = (order.orderItems.IndexOf(item))+1;
 				AddOrderItem(item);
@@ -421,19 +428,11 @@ namespace DiskontPica.Controllers
 		{
 			Product product = _drinkStoreRepository.GetProductById(orderItem.productId);
 
-			if(product.stock < orderItem.quantity)
-			{
-				return Ok("Not enough stock of product");
-			}
-			else
-			{
-				orderItem.priceQuantity = orderItem.quantity * product.price;
+			orderItem.priceQuantity = orderItem.quantity * product.price;
 
-				_drinkStoreRepository.AddOrderItem(orderItem);	
+			_drinkStoreRepository.AddOrderItem(orderItem);	
 
-				return Ok();
-			}
-
+			return Ok();
 			
 		}
 
