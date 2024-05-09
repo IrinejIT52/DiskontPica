@@ -46,7 +46,7 @@ namespace DiskontPica.Controllers
 			var obj = _drinkStoreRepository.GetProductById(id);
 			if (obj == null)
 			{
-				return NotFound();
+				return NotFound("Product not found");
 			}
 
 			return Ok(obj);
@@ -380,7 +380,7 @@ namespace DiskontPica.Controllers
 			return NoContent();
 		}
 
-		[Authorize(Policy = IdentityData.AdminPolicy)]
+		[Authorize(Policy = IdentityData.CustomerPolicy)]
 		[HttpGet("order/by-customer/{id}")]
 		public ActionResult<IEnumerable<Order>> GetOrderByCustomer(int id)
 		{
