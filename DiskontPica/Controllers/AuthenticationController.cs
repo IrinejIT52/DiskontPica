@@ -22,7 +22,7 @@ namespace DiskontPica.Controllers
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public IActionResult AuthenticateAdmin(Principal principal)
+        public IActionResult Authenticate(Principal principal)
         {
             var admin = authenticationHelper.AuthenticatePrincipalAdmin(principal);
             
