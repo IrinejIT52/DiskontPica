@@ -1,10 +1,12 @@
 ﻿using DiskontPica.Helper;
 using DiskontPica.Repository;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DiskontPica.Controllers
 {
+    [EnableCors("AllowCors")]
     [ApiController]
     [Route("api/login")]
     [AllowAnonymous]

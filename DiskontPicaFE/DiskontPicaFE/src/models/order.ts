@@ -1,6 +1,9 @@
+import { OrderItem } from "./orderItem";
+
 export class Order {
     orderId!:number;
     customerId!:number;
+    orderItems!:Array<OrderItem>
     finalPrice!:number;
     orderDate!:Date;
     orderStatus!:OrderStatus;

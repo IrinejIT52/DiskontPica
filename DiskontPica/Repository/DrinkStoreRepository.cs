@@ -190,6 +190,17 @@ namespace DiskontPica.Repository
 			return _dbContext.Customer.Find(customerId);
 		}
 
+		public Customer GetCustomerByEmail(string email)
+		{
+			return (Customer)_dbContext.Customer.Where(p => p.email == email);
+		   
+		}
+		public Administrator GetAdministratorByEmail(string email)
+		{
+			return (Administrator)_dbContext.Administrator.Where(p => p.email == email);
+
+		}
+
 		public Order GetOrderById(int orderId)
 		{
 			return _dbContext.Orders.Find(orderId);
@@ -359,6 +370,6 @@ namespace DiskontPica.Repository
 			return products;
 		}
 
-
+	
 	}
 }

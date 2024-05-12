@@ -51,6 +51,21 @@ namespace DiskontPica
 				options.AddPolicy(IdentityData.CustomerPolicy,p => p.RequireClaim(IdentityData.CustomerClaim,"True"));
 			});
 
+			services.AddCors(
+				options =>
+				{
+					options.AddPolicy(
+					"AllowCors",
+						builder =>
+						{
+							builder.AllowAnyOrigin().WithMethods(
+								HttpMethod.Get.Method,
+								HttpMethod.Put.Method,
+								HttpMethod.Post.Method,
+								HttpMethod.Delete.Method).AllowAnyHeader().WithExposedHeaders("CustomHeader");
+						});
+				});
+
 
 
 			services.AddSwaggerGen(c =>
@@ -84,6 +99,8 @@ namespace DiskontPica
 				app.UseHttpsRedirection();
 
 				app.UseRouting();
+
+				app.UseCors();
 
 				app.UseAuthentication();
 

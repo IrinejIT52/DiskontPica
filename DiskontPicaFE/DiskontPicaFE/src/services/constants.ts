@@ -15,8 +15,10 @@ export const Constant = {
         ORDER_ITEM:'orderItem/',
         ORDER_ITEM_ORDER:'orderItem/by-order/',
         ADMIN:'administrator/',
+        ADMIN_EMAIL:'administrator/by_email/',
         CUSTOMER:'customer/',
-        LOGIN:'user/'
+        CUSTOMER_EMAIL:'customer/by_email/',
+        LOGIN:'user'
 
     }
 

@@ -1,4 +1,5 @@
-import { HttpInterceptorFn } from "@angular/common/http";
+import { HttpErrorResponse, HttpInterceptorFn } from "@angular/common/http";
+import { catchError } from "rxjs";
 
 export const authIntercepter: HttpInterceptorFn = (req, next) => {
     const jwtToken = getJwtToken();
@@ -11,8 +12,9 @@ export const authIntercepter: HttpInterceptorFn = (req, next) => {
         })  
     }
     return next(req)
+    
 };
 
 function getJwtToken(): string | null {
-    return localStorage.getItem('JWT_TOKEN');
+    return localStorage.getItem('token');
 }

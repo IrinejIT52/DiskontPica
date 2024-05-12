@@ -24,7 +24,10 @@ namespace DiskontPica.Repository
 		void AddAdministrator(Administrator administrator);
 		void UpdateAdministrator(Administrator administrator);
 		void DeleteAdministrator(int administratorId);
+
+		Customer GetAdministratorByEmail(string email);
 		Administrator GetAdministratorWithCredentials(string name, string password);
+
 
 		// Product
 		IEnumerable<Product> GetAllProducts();
@@ -63,5 +66,7 @@ namespace DiskontPica.Repository
 		void UpdateCustomers(Customer customer);
 		void DeleteCustomers(int customerId);
 		Customer GetCustomerWithCredentials(string name, string password);
+
+		Customer GetCustomerByEmail(string email);
 	}
 }

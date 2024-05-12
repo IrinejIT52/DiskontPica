@@ -30,4 +30,8 @@ export class AdminService {
   public DeleteAdministrator(Id:number):Observable<any>{
     return this.httpClient.delete(Constant.API_ENDPOINT+Constant.METHODS.ADMIN+Id)
   }
+
+  public GetAdministratorByEmail(email:string):Observable<any>{
+    return this.httpClient.get(Constant.API_ENDPOINT+Constant.METHODS.ADMIN_EMAIL+email)
+  }
 }

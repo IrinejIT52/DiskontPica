@@ -4,6 +4,7 @@ using DiskontPica.DTO;
 using DiskontPica.Models;
 using DiskontPica.Repository;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -11,8 +12,10 @@ using System.Net.Sockets;
 
 namespace DiskontPica.Controllers
 {
+	[EnableCors("AllowCors")]
 	[Route("api/drinkStore")]
 	[ApiController]
+	
 	public class DrinkStoreController : ControllerBase
 	{
 
@@ -550,6 +553,19 @@ namespace DiskontPica.Controllers
 			return Ok();
 		}
 
+		[Authorize(Policy = IdentityData.AdminPolicy)]
+		[HttpGet("administrator/by_email/{email}")]
+		public ActionResult<Customer> GetAdministratorByEmail(string email)
+		{
+			var obj = _drinkStoreRepository.GetAdministratorByEmail(email);
+			if (obj == null)
+			{
+				return NotFound("No admin found");
+			}
+
+			return Ok(obj);
+		}
+
 
 
 		// Customer
@@ -620,7 +636,20 @@ namespace DiskontPica.Controllers
 			return Ok();
 		}
 
-		
+		[Authorize(Policy = IdentityData.AdminPolicy)]
+		[HttpGet("customer/by_email/{email}")]
+		public ActionResult<Customer> GetCustomerByEmail(string email)
+		{
+			var obj = _drinkStoreRepository.GetCustomerByEmail(email);
+			if (obj == null)
+			{
+				return NotFound("No custmore found");
+			}
+
+			return Ok(obj);
+		}
+
+
 
 	}
 }
