@@ -555,7 +555,7 @@ namespace DiskontPica.Controllers
 
 		[Authorize(Policy = IdentityData.AdminPolicy)]
 		[HttpGet("administrator/by_email/{email}")]
-		public ActionResult<Customer> GetAdministratorByEmail(string email)
+		public ActionResult<Administrator> GetAdministratorByEmail(string email)
 		{
 			var obj = _drinkStoreRepository.GetAdministratorByEmail(email);
 			if (obj == null)

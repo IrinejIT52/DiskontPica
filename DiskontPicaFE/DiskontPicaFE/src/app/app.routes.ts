@@ -53,11 +53,11 @@ export const routes: Routes = [
 
     {
         path:'',
-        component:LayoutComponent,
+        component:DashboardComponent,
         children:[
             {
-                path:'dashboard',
-                component:DashboardComponent
+                path:'admin-products',
+                component:ProductsComponent
             },
             {
                 path:'categories',
@@ -70,11 +70,11 @@ export const routes: Routes = [
             {
                 path:'orders',
                 component:OrdersComponent
-            },
-            {
-                path:'products',
-                component:ProductsComponent
             }
+           
         ]
-    }
+    },
+          
+        
+    
 ];

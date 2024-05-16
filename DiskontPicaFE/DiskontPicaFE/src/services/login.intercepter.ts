@@ -1,17 +1,14 @@
-import { HttpErrorResponse, HttpInterceptorFn } from "@angular/common/http";
-import { catchError } from "rxjs";
+import { HttpInterceptorFn } from "@angular/common/http";
+
 
 export const authIntercepter: HttpInterceptorFn = (req, next) => {
     const jwtToken = getJwtToken();
-
-    if(jwtToken){
-        req.clone({
-            setHeaders:{
-                Authorization:`Bearer ${jwtToken}`
-            }
-        })  
-    }
-    return next(req)
+    
+    const modifidyReq = req.clone({
+        headers: req.headers.set('Authorization', `Bearer ${jwtToken}`),
+      });
+   
+    return next(modifidyReq)
     
 };
 

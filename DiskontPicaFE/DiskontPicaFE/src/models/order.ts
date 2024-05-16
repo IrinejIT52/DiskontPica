@@ -11,14 +11,14 @@ export class Order {
     addiitionalInfo!:string;
 }
 
-enum OrderStatus
+export enum OrderStatus
 {
 	PENDING,
 	CONFIRMED,
     CANCELLED
 }
 
-enum OrderType
+export enum OrderType
 {
 	REGULAR,
 	BIRTHDAY,

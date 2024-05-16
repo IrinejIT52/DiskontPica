@@ -1,0 +1,79 @@
+<div class="container">
+    <h3 mat-dialog-title *ngIf="flagArtDialog == 1">Dodavanje proizvoda:</h3>
+    <h3 mat-dialog-title *ngIf="flagArtDialog == 2">Modifikacija proizvoda: {{data.name}}</h3>
+    <h3 mat-dialog-title *ngIf="flagArtDialog == 3">Brisanje proizvoda: {{data.name}}</h3>
+    <form class="mat-dialog-content" #formControl="ngForm">
+        <div class="form">
+            <mat-form-field>
+                <input matInput placeholder="Name" [(ngModel)]="data.name" name="name" [disabled]="flagArtDialog == 3"
+                    required>
+            </mat-form-field>
+        </div>
+        <div class="form">
+            <mat-form-field>
+                <input matInput placeholder="Description" [(ngModel)]="data.description" name="description"
+                    [disabled]="flagArtDialog == 3" required>
+            </mat-form-field>
+        </div>
+        <div class="form">
+            <mat-form-field>
+                <input matInput placeholder="Price" [(ngModel)]="data.price" name="price"
+                    [disabled]="flagArtDialog == 3" required>
+            </mat-form-field>
+        </div>
+        <div class="form">
+            <mat-form-field>
+                <input matInput placeholder="Stock" [(ngModel)]="data.stock" name="stock"
+                    [disabled]="flagArtDialog == 3" required>
+            </mat-form-field>
+        </div>
+        <div class="form">
+            <mat-form-field>
+                <mat-select [(ngModel)]="data.categoryId" placeholder="Category" name="categoryId"
+                    [compareWith]="compareTo" [disabled]="flagArtDialog == 3">
+                    <mat-option *ngFor="let cate  of categoryList" [value]="cate.categoryId">
+                        {{ cate.name }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="form">
+            <mat-form-field>
+                <mat-select [(ngModel)]="data.countryId" placeholder="Country" name="countryId"
+                    [compareWith]="compareTo" [disabled]="flagArtDialog == 3">
+                    <mat-option *ngFor="let cou of countryList" [value]="cou.countryId">
+                        {{ cou.name }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="form">
+            <mat-form-field>
+                <mat-select [(ngModel)]="data.adminId" placeholder="Admin" name="admin"
+                    [compareWith]="compareTo" [disabled]="flagArtDialog == 3">
+                    <mat-option *ngFor="let admin of adminList" [value]="admin.adminId">
+                        {{ admin.name }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div mat-dialog-actions>
+            <button mat-button *ngIf="flagArtDialog==1" type="submit" [mat-dialog-close]="1" (click)="add()"
+                [disabled]="!formControl.valid">
+                Sačuvaj
+            </button>
+            <button mat-button *ngIf="flagArtDialog==2" type="submit" [mat-dialog-close]="1" (click)="update()"
+                [disabled]="!formControl.valid">
+                Sačuvaj
+            </button>
+            <button mat-button *ngIf="flagArtDialog==3" type="submit" [mat-dialog-close]="1" (click)="delete()">
+                Obriši
+            </button>
+            <button mat-button (click)="cancel()">
+                Poništi
+            </button>
+        </div>
+
+    </form>
+
+</div>

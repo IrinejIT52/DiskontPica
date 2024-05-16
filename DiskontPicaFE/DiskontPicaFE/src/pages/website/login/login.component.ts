@@ -4,7 +4,7 @@ import { Principal } from '../../../models/principal';
 import { LoginService } from '../../../services/login.service';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
+import { HttpErrorResponse, HttpInterceptorFn, HttpStatusCode } from '@angular/common/http';
 
 
 @Component({
@@ -36,13 +36,13 @@ export class LoginComponent {
   onLogin(){
         this.loginService.login(this.principal).subscribe(
           data => {
-              if(data != HttpErrorResponse)
+              if(data != HttpStatusCode.Unauthorized)
                 {
                   localStorage.setItem('token',data.token)
                   const{admin} = this.parseJwt(data.token)
                   if(admin == "True")
                   {
-                    this.router.navigateByUrl('/dashboard')
+                    this.router.navigateByUrl('/admin-products')
                   }
                   else
                   {

@@ -18,6 +18,9 @@ export class ProductService {
   public GetProductById(Id:number):Observable<any>{
     return this.httpClient.get(Constant.API_ENDPOINT+Constant.METHODS.PRODUCT+Id)
   }
+  public GetProductByQuery(search:string,sortColumne:string,sortOrder:string){
+    return this.httpClient.get(Constant.API_ENDPOINT+Constant.METHODS.PRODUCT+search+'/'+sortColumne+'/'+sortOrder)
+  }
 
   public AddProduct(product:Product):Observable<any>{
     return this.httpClient.post(Constant.API_ENDPOINT+Constant.METHODS.PRODUCT,product)

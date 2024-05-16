@@ -25,7 +25,7 @@ namespace DiskontPica.Repository
 		void UpdateAdministrator(Administrator administrator);
 		void DeleteAdministrator(int administratorId);
 
-		Customer GetAdministratorByEmail(string email);
+		Administrator GetAdministratorByEmail(string email);
 		Administrator GetAdministratorWithCredentials(string name, string password);
 
 
