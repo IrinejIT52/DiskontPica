@@ -1,0 +1,31 @@
+<div class="parent">
+    <div class="container">
+      <div class="left-section"></div>
+      <div class="right-section">
+        <div class="login-container">
+          <form class="login-form" #loginForm="ngForm">
+            <h2 class="login-title"><i class="fas fa-user-circle"></i> Register</h2>
+            <div class="form-control">
+              <i class="fas fa-user icon"></i>
+              <input type="text" [(ngModel)]="customer.name" name="name"  placeholder="Username" required>
+            </div>
+            <div class="form-control">
+              <i class="fas fa-lock icon"></i>
+              <input type="password" [(ngModel)]="customer.password"  name="password"  placeholder="Password">
+            </div>
+             <div class="form-control">
+              <i class="fas fa-user icon"></i>
+              <input type="text" [(ngModel)]="customer.email" name="email"  placeholder="Email" required>
+            </div>
+            <div class="form-control">
+                <i class="fas fa-user icon"></i>
+                <input type="text" [(ngModel)]="customer.adress" name="adress"  placeholder="Adress" required>
+              </div>
+            <button type="button" [disabled]="loginForm.form.invalid"  (click)="onRegister()" >Register</button>
+            <p></p>
+            <button type="button" (click)="toLogin()">Alredy have account?</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { OrdersService } from '../../../../services/orders.service';
 import { Order } from '../../../../models/order';
+import { OrderItemService } from '../../../../services/order-item.service';
 
 @Component({
   selector: 'app-order-dialog',
@@ -25,7 +26,8 @@ export class OrderDialogComponent {
   constructor(public snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<OrderDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Order,
-    public orderService:OrdersService) { }
+    public orderService:OrdersService,
+    public orderItemService:OrderItemService) { }
 
   ngOnInit() {
     
@@ -38,17 +40,22 @@ export class OrderDialogComponent {
 
 
   public update(): void {
-    this.orderService.UpdateOrder(this.data).subscribe(() => {
-      this.snackBar.open('Uspesno izmenjen statusa: ' + this.data.orderStatus, 'OK', {
-        duration: 2500
-      })
-    }),
-      (error: Error) => {
-        console.log(error.name + ' ' + error.message)
-        this.snackBar.open('Doslo je do greske prilikom izmene statusa. ', 'Zatvori', {
+    this.orderItemService.GetOrderItemByOrder(this.data.orderId).subscribe((dataa)=>{
+      this.data.orderItems = dataa;
+      
+      this.orderService.UpdateOrder(this.data).subscribe(() => {
+        this.snackBar.open('Uspesno izmenjen statusa: ' + this.data.orderStatus, 'OK', {
           duration: 2500
         })
-      };
+      }),
+        (error: Error) => {
+          console.log(error.name + ' ' + error.message)
+          this.snackBar.open('Doslo je do greske prilikom izmene statusa. ', 'Zatvori', {
+            duration: 2500
+          })
+        };
+    })
+   
 
   }
 

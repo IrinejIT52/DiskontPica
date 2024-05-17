@@ -30,7 +30,7 @@
         <div class="form">
             <mat-form-field>
                 <mat-select [(ngModel)]="data.categoryId" placeholder="Category" name="categoryId"
-                    [compareWith]="compareTo" [disabled]="flagArtDialog == 3">
+                    [compareWith]="compareTo"  [disabled]="flagArtDialog == 3">
                     <mat-option *ngFor="let cate  of categoryList" [value]="cate.categoryId">
                         {{ cate.name }}
                     </mat-option>
@@ -40,7 +40,7 @@
         <div class="form">
             <mat-form-field>
                 <mat-select [(ngModel)]="data.countryId" placeholder="Country" name="countryId"
-                    [compareWith]="compareTo" [disabled]="flagArtDialog == 3">
+                    [compareWith]="compareTo"  [disabled]="flagArtDialog == 3">
                     <mat-option *ngFor="let cou of countryList" [value]="cou.countryId">
                         {{ cou.name }}
                     </mat-option>
@@ -50,7 +50,7 @@
         <div class="form">
             <mat-form-field>
                 <mat-select [(ngModel)]="data.adminId" placeholder="Admin" name="admin"
-                    [compareWith]="compareTo" [disabled]="flagArtDialog == 3">
+                    [compareWith]="compareTo"  [disabled]="flagArtDialog == 3">
                     <mat-option *ngFor="let admin of adminList" [value]="admin.adminId">
                         {{ admin.name }}
                     </mat-option>

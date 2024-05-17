@@ -3,7 +3,7 @@ import { OrderItem } from "./orderItem";
 export class Order {
     orderId!:number;
     customerId!:number;
-    orderItems!:Array<OrderItem>
+    orderItems?:OrderItem[];
     finalPrice!:number;
     orderDate!:Date;
     orderStatus!:OrderStatus;

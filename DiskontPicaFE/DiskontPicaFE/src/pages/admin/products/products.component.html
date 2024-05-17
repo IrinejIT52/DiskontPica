@@ -29,18 +29,18 @@
       </ng-container>
 
         <ng-container matColumnDef="countryId">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>CountryId</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Country</mat-header-cell>
             <mat-cell *matCellDef="let row"> {{ countryList[row.countryId-1].name }}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="categoryId">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>CategoryId</mat-header-cell>
-            <mat-cell *matCellDef="let row"> {{ countryList[row.categoryId-1].name }}</mat-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Category</mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{ categoryList[row.categoryId-1].name }}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="adminId">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>AdminId</mat-header-cell>
-            <mat-cell *matCellDef="let row"> {{ countryList[row.adminId-1].name }}</mat-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Admin</mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{ adminList[row.adminId-1].name }}</mat-cell>
         </ng-container>
 
       <!-- Action Buttons -->
@@ -51,22 +51,24 @@
           </button>
         </mat-header-cell>
         <mat-cell *matCellDef="let row; let i = index">
-          <button (click)="selectRow(row)" (click)="openDialog(2,row)"  mat-icon-button color="primary">
+          <button  (click)="openDialog(2,row)"  mat-icon-button color="primary">
             <mat-icon aria-label="Edit">edit</mat-icon>
           </button>
-          <button (click)="selectRow(row)" (click)="openDialog(3,row)"  mat-icon-button color="primary">
+          <button  (click)="openDialog(3,row)"  mat-icon-button color="primary">
             <mat-icon aria-label="Delete">delete</mat-icon>
           </button>
         </mat-cell>
       </ng-container>
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row
+        (click)="selectedRow(row)"
         style="cursor: pointer;"
-        *matRowDef="let row; columns: displayedColumns">
+        *matRowDef="let row; columns: displayedColumns" >
       </mat-row>
     </mat-table>
     <mat-paginator [length]="100" [pageSize]="5" [pageSizeOptions]="[5,10,25,100]">
     </mat-paginator>
   </div>
+ 
 
  

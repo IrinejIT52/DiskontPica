@@ -1,4 +1,4 @@
-import { Component, Inject, Input, NgModule, input } from '@angular/core';
+import { Component, DoCheck, Inject, Input, NgModule, input } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
@@ -27,7 +27,6 @@ import { Administrator } from '../../../../models/administrator';
 export class ProductDialogComponent {
 
   public flagArtDialog!:number;
-  public product!: Product;
   
 
   public categoryList: Category[] =[];
@@ -43,7 +42,9 @@ export class ProductDialogComponent {
     public categoryService: CategoryService,
     public adminService: AdminService) { }
 
+
   ngOnInit() {
+    
     this.categoryService.GetAllCategories().subscribe(
       (res:any) =>{
         this.categoryList=res;
@@ -60,7 +61,12 @@ export class ProductDialogComponent {
       }
     )
     
+    
   }
+
+
+
+  
 
   compareTo(a: any, b: any) {
     return a.id == b.id;

@@ -17,7 +17,7 @@ export const Constant = {
         ADMIN:'administrator/',
         ADMIN_EMAIL:'administrator/by_email/',
         CUSTOMER:'customer/',
-        CUSTOMER_EMAIL:'customer/by_email/',
+        CUSTOMER_NAME:'customer/by_name/',
         LOGIN:'user'
 
     }

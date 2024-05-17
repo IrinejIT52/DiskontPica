@@ -31,7 +31,7 @@ export class CustomerService {
     return this.httpClient.delete(Constant.API_ENDPOINT+Constant.METHODS.CUSTOMER+Id)
   }
 
-  public GetCustomerByEmail(email:string):Observable<any>{
-    return this.httpClient.get(Constant.API_ENDPOINT+Constant.METHODS.CUSTOMER_EMAIL+email)
+  public GetCustomerByName(name:string):Observable<any>{
+    return this.httpClient.get(Constant.API_ENDPOINT+Constant.METHODS.CUSTOMER_NAME+name)
   }
 }

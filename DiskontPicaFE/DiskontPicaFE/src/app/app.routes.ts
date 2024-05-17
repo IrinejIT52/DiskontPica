@@ -11,13 +11,18 @@ import { DashboardComponent } from '../pages/admin/dashboard/dashboard.component
 import { CategoriesComponent } from '../pages/admin/categories/categories.component';
 import { CustomersComponent } from '../pages/admin/customers/customers.component';
 import { OrdersComponent } from '../pages/admin/orders/orders.component';
+import { RegisterComponent } from '../pages/website/register/register.component';
 
 export const routes: Routes = [
 
     {
         path:'',
-        redirectTo:'login',
+        redirectTo:'register',
         pathMatch:'full'
+    },
+    {
+        path:'register',
+        component:RegisterComponent
     },
     {
         path:'login',
@@ -27,6 +32,7 @@ export const routes: Routes = [
         path:'',
         component:LayoutComponent,
         children:[
+           
             {
                 path:'landing-page',
                 component:LandingPageComponent

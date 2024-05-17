@@ -33,7 +33,7 @@ export class ProductsComponent  {
   subscription!: Subscription;
   displayedColumns = ['name', 'description', 'price', 'stock','countryId','categoryId','adminId', 'actions'];
   dataSource!: MatTableDataSource<Product>;
-  selected!: Product;
+  public selected!: Product;
   @ViewChild(MatPaginator, {static: false}) paginator!: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort!: MatSort;
 
@@ -79,16 +79,7 @@ export class ProductsComponent  {
     
     const dialogRef = this.dialog.open(ProductDialogComponent, {data:(product ? product : new Product())})
     dialogRef.componentInstance.flagArtDialog = flag;
-
    
-    if(flag===2){
-      console.log(this.selected);
-      dialogRef.componentInstance.data.categoryId = this.selected.categoryId;
-      dialogRef.componentInstance.data.countryId = this.selected.countryId;
-      dialogRef.componentInstance.data.adminId = this.selected.adminId;
-    }
-
-    
     dialogRef.afterClosed().subscribe(res =>{
       if(res === 1){
         this.loadData();
@@ -104,8 +95,8 @@ export class ProductsComponent  {
     this.dataSource.filter = filterValue; 
   }
 
-  selectRow(product: Product) {
-    this.selected = product;
+  selectedRow(row:Product){
+    this.selected=row;
   }
 }
 

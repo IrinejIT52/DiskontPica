@@ -190,15 +190,16 @@ namespace DiskontPica.Repository
 			return _dbContext.Customer.Find(customerId);
 		}
 
-		public Customer GetCustomerByEmail(string email)
+		public IQueryable<Customer> GetCustomerByName(string name)
 		{
-			return (Customer)_dbContext.Customer.Where(p => p.email == email);
+			return _dbContext.Customer.Where(p => p.name == name);
+			
 		   
 		}
-		public Administrator GetAdministratorByEmail(string email)
+		public IQueryable<Administrator> GetAdministratorByEmail(string email)
 		{
-			return (Administrator)_dbContext.Administrator.Where(p => p.email == email);
-
+			return _dbContext.Administrator.Where(p => p.email == email);
+			
 		}
 
 		public Order GetOrderById(int orderId)
@@ -218,43 +219,43 @@ namespace DiskontPica.Repository
 
 		public void UpdateAdministrator(Administrator administrator)
 		{
-			_dbContext.Entry(administrator).State = EntityState.Modified;
+			_dbContext.Administrator.Entry(administrator).State = EntityState.Modified;
 			_dbContext.SaveChanges();
 		}
 
 		public void UpdateCategory(Category category)
 		{
-			_dbContext.Entry(category).State = EntityState.Modified;
+			_dbContext.Category.Update(category);
 			_dbContext.SaveChanges();
 		}
 
 		public void UpdateCountry(Country country)
 		{
-			_dbContext.Entry(country).State = EntityState.Modified;
+			_dbContext.Country.Entry(country).State = EntityState.Modified;
 			_dbContext.SaveChanges();
 		}
 
 		public void UpdateCustomers(Customer customer)
 		{
-			_dbContext.Entry(customer).State = EntityState.Modified;
+			_dbContext.Customer.Entry(customer).State = EntityState.Modified;
 			_dbContext.SaveChanges();
 		}
 
 		public void UpdateOrder(Order order)
 		{
-			_dbContext.Entry(order).State = EntityState.Modified;
+			_dbContext.Orders.Entry(order).State = EntityState.Modified;
 			_dbContext.SaveChanges();
 		}
 
 		public void UpdateOrderItem(OrderItem orderItem)
 		{
-			_dbContext.Entry(orderItem).State = EntityState.Modified;
+			_dbContext.OrderItem.Entry(orderItem).State = EntityState.Modified;
 			_dbContext.SaveChanges();
 		}
 
 		public void UpdateProduct(Product product)
 		{
-			_dbContext.Entry(product).State = EntityState.Modified;
+			_dbContext.Product.Entry(product).State = EntityState.Modified;
 			_dbContext.SaveChanges();
 		}
 
