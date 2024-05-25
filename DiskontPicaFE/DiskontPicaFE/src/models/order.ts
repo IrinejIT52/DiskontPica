@@ -3,9 +3,9 @@ import { OrderItem } from "./orderItem";
 export class Order {
     orderId!:number;
     customerId!:number;
-    orderItems?:OrderItem[];
+    orderItems!:OrderItem[];
     finalPrice!:number;
-    orderDate!:Date;
+    orderDate!:string;
     orderStatus!:OrderStatus;
     orderType!:OrderType;
     addiitionalInfo!:string;

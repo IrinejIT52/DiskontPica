@@ -1,1 +1,24 @@
-<p>customer-cart works!</p>
+
+<div style="padding: 20px;">
+<h1>Cart</h1>
+
+@for(item of cartService.getCart(); track item.productId){
+    <div class="cart-item">
+        <h3>Product:{{ item.name }}</h3>
+        <p>Price:{{ item.price }}</p>
+        <p>Quantity:{{item.quantity}}</p>
+        <div style="display: flex; gap: 10px;">
+            <button (click)="removeFromCart(item)">Delete</button>
+            <button (click)="cartService.incrementQuantity(item.productId)">+</button>
+            <button (click)="cartService.decrementQuantity(item.productId)">-</button>
+        </div>
+    </div>
+}
+
+</div>
+
+<div style="padding: 20px;">
+    <h1>Total:{{ cartService.getTotal()}}</h1>
+    <button (click)="checkOut()" >Checkout</button>
+</div>
+

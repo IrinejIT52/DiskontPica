@@ -30,7 +30,7 @@ namespace DiskontPica.Controllers
 
 
 		//Product
-		[Authorize(Policy = IdentityData.AdminPolicy)]
+		[AllowAnonymous]
 		[HttpGet("product")]
 		public ActionResult<IEnumerable<Product>> GetAllProducts()
 		{

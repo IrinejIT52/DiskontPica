@@ -46,7 +46,7 @@ export class LoginComponent {
                   }
                   else
                   {
-                    this.router.navigateByUrl('/landing-page')
+                    this.router.navigateByUrl('/product')
                   }
                   
                 }

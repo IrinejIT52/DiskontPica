@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from '../pages/website/login/login.component';
 import { LayoutComponent } from '../pages/website/layout/layout.component';
 import { ProductsComponent } from '../pages/admin/products/products.component';
-import { LandingPageComponent } from '../pages/website/landing-page/landing-page.component';
 import { CustomerOrdersComponent } from '../pages/website/customer-orders/customer-orders.component';
 import { CustomerCartComponent } from '../pages/website/customer-cart/customer-cart.component';
 import { CheckoutComponent } from '../pages/website/checkout/checkout.component';
@@ -34,8 +33,8 @@ export const routes: Routes = [
         children:[
            
             {
-                path:'landing-page',
-                component:LandingPageComponent
+                path:'product',
+                component:CategoryProductsComponent
             },
             {
                 path:'customer-orders',
@@ -49,10 +48,7 @@ export const routes: Routes = [
                 path:'checkout',
                 component:CheckoutComponent
             },
-            {
-                path:'product',
-                component:CategoryProductsComponent
-            }
+           
         ]
 
     },

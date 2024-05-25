@@ -4,8 +4,10 @@ using DiskontPica.Profiles;
 using DiskontPica.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Stripe;
 using System.Text;
 
 namespace DiskontPica
@@ -25,6 +27,7 @@ namespace DiskontPica
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddControllers();
+			services.Configure<StripeSettings>(_configuration.GetSection("StripeSettings"));
 			services.AddScoped<IDrinkStoreRepository, DrinkStoreRepository>();
 			services.AddScoped<IAuthenticationHelper, AuthenticationHelper>();
 			services.AddDbContext<DrinkStoreContext>();
@@ -100,7 +103,10 @@ namespace DiskontPica
 
 				app.UseRouting();
 
-				app.UseCors();
+				app.UseCors(x => x
+					.AllowAnyHeader()
+					.AllowAnyMethod()
+					.AllowAnyOrigin());
 
 				app.UseAuthentication();
 

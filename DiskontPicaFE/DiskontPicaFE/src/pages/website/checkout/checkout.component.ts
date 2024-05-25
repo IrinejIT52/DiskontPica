@@ -8,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './checkout.component.css'
 })
 export class CheckoutComponent {
-
+ 
 }

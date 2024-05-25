@@ -2,6 +2,7 @@ export const Constant = {
 
     API_ENDPOINT:'http://localhost:5086/api/drinkStore/',
     API_LOGIN:'http://localhost:5086/api/login/',
+    API_STRIPE:'http://localhost:5086/api/stripe/',
 
     METHODS:{
         PRODUCT:'product/',

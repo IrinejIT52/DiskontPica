@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { COMPILER_OPTIONS, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Constant } from './constants';
 import { Product } from '../models/product';
 
@@ -8,6 +8,7 @@ import { Product } from '../models/product';
   providedIn: 'root'
 })
 export class ProductService {
+
 
   constructor(private httpClient:HttpClient) { }
 
@@ -18,7 +19,7 @@ export class ProductService {
   public GetProductById(Id:number):Observable<any>{
     return this.httpClient.get(Constant.API_ENDPOINT+Constant.METHODS.PRODUCT+Id)
   }
-  public GetProductByQuery(search:string,sortColumne:string,sortOrder:string){
+  public GetProductByQuery(search:string,sortColumne:string,sortOrder:string):Observable<any>{
     return this.httpClient.get(Constant.API_ENDPOINT+Constant.METHODS.PRODUCT+search+'/'+sortColumne+'/'+sortOrder)
   }
 
@@ -45,4 +46,8 @@ export class ProductService {
   public GetProductByAdmin(Id:number):Observable<any>{
     return this.httpClient.get(Constant.API_ENDPOINT+Constant.METHODS.PRODUCT_ADMIN+Id)
   }
+
+
+
+
 }

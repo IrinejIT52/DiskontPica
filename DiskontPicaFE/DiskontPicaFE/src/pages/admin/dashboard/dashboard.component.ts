@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,4 +10,10 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 })
 export class DashboardComponent {
 
+  constructor(private router:Router){}
+
+  logout(){
+    localStorage.removeItem('token')
+    this.router.navigateByUrl('/login')
+  }
 }
