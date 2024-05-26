@@ -7,6 +7,7 @@ import { CustomerService } from '../../../services/customer.service';
 import { OrderItem } from '../../../models/orderItem';
 import { OrdersService } from '../../../services/orders.service';
 import { Router } from '@angular/router';
+import { last } from 'rxjs';
 
 @Component({
   selector: 'app-customer-cart',
@@ -34,8 +35,7 @@ export class CustomerCartComponent {
   cartList:any=[];
   orderItem!:OrderItem;
   date=new Date();
-
-  
+  orderId!:number;
 
   constructor(private router:Router,private paymentService:PaymentService,private customerService:CustomerService,private orderService:OrdersService){}
 
@@ -53,42 +53,63 @@ export class CustomerCartComponent {
     const{name}= this.parseJwt(localStorage.getItem('token'))
     this.customerService.GetCustomerByName(name).subscribe((data)=>{
       this.order.customerId=data[0].customerId;
-    })
+      
+      this.cartList=this.cartService.getCart();
 
-    this.cartList=this.cartService.getCart();
-    console.log(this.cartList)
+      this.order.orderItems=[];
 
-    this.order.orderItems=[];
+      this.cartList.forEach((product:any) => {
+        this.orderItem = {
+          orderId:0,
+          orderItemId:0,
+          productId:product.productId,
+          quantity:product.quantity,
+          priceQuantity:0
+        }
+        this.order.orderItems.push(this.orderItem)
+      });
 
-    this.cartList.forEach((product:any) => {
-      this.orderItem = {
-        orderId:0,
-        orderItemId:0,
-        productId:product.productId,
-        quantity:product.quantity,
-        priceQuantity:0
-      }
-      this.order.orderItems.push(this.orderItem)
-    });
-
-    const datee=formatDate(this.date,'yyyy-MM-dd', 'en-US')
+       const datee=formatDate(this.date,'yyyy-MM-dd', 'en-US')
     
-    this.order.orderDate= datee;
-    this.order.orderStatus=0;
-    this.order.orderType=0;
-    this.order.addiitionalInfo="additional info";
-    this.order.finalPrice=0;
+      this.order.orderDate= datee;
+      this.order.orderStatus=0;
+      this.order.orderType=0;
+      this.order.addiitionalInfo="additional info";
+      this.order.finalPrice=0;
 
 
-    console.log(this.order)
-
-
-    this.orderService.AddOrder(this.order).subscribe((data)=>{
-      this.paymentService.CreateCheckOutSession(this.order).subscribe((data)=>{
-        this.router.navigateByUrl(data.url)
+      this.orderService.AddOrder(this.order).subscribe((data)=>{
+        this.cartService.clear();
       })
+
+      this.orderService.GetOrderByCustomer(this.order.customerId).subscribe((data)=>{
+        var lastIndex=data.length-1;
+        this.orderId=data[lastIndex].orderId;
+
+        this.paymentService.CreateCheckOutSession(this.orderId).subscribe((data)=>{
+          document.location.href = data;
+        })
+      })
+
+
+      
+
+
+
     })
 
+    
+    
+    
+
+    
+
+   
+
+
+
+
+  
   }
 
 }

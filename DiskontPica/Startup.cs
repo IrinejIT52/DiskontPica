@@ -65,7 +65,8 @@ namespace DiskontPica
 								HttpMethod.Get.Method,
 								HttpMethod.Put.Method,
 								HttpMethod.Post.Method,
-								HttpMethod.Delete.Method).AllowAnyHeader().WithExposedHeaders("CustomHeader");
+								HttpMethod.Delete.Method).
+								AllowAnyHeader();
 						});
 				});
 
@@ -103,10 +104,9 @@ namespace DiskontPica
 
 				app.UseRouting();
 
-				app.UseCors(x => x
-					.AllowAnyHeader()
-					.AllowAnyMethod()
-					.AllowAnyOrigin());
+				app.UseCors("AllowCors");
+
+				app.UseHttpsRedirection();
 
 				app.UseAuthentication();
 

@@ -1,5 +1,7 @@
 ﻿using DiskontPica.Helper;
 using DiskontPica.Models;
+using DiskontPica.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
@@ -13,29 +15,40 @@ namespace DiskontPica.Controllers
 {
 	[EnableCors("AllowCors")]
 	[Route("api/stripe")]
+	[ApiController]
 	public class StripeController : Controller
 	{
+		private readonly IDrinkStoreRepository _drinkStoreRepository;
 		private readonly StripeSettings _settings;
 
 		public string SessionId { get; set; }
 
-		public StripeController(IOptions<StripeSettings> settings)
+		public StripeController(IDrinkStoreRepository drinkStoreRepository,IOptions<StripeSettings> settings)
 		{
+			_drinkStoreRepository = drinkStoreRepository ?? throw new ArgumentNullException(nameof(drinkStoreRepository));
 			_settings = settings.Value;
 		}
 
 		[HttpPost]
-		public IActionResult CreateCheckOutSession([FromBody] Order order)
+		[Authorize(Policy = IdentityData.CustomerPolicy)]
+		public ActionResult CreateCheckOutSession([FromBody]int orderId)
 		{
+			var existingOrder = _drinkStoreRepository.GetOrderById(orderId);
+
+			if (existingOrder == null)
+			{
+				return NotFound("Order not found"+orderId);
+			}
+
 			var currancy = "rsd";
-			var successUrl = "http://localhost:4200/drinkStore/product";
+			var successUrl = "http://localhost:4200/product";
+			
 
 			StripeConfiguration.ApiKey = _settings.SecretKey;
 
 
 			var options = new Stripe.Checkout.SessionCreateOptions
-            {
-				PaymentMethodTypes = new List<string> { "card" },
+			{
 
 				LineItems = new List<SessionLineItemOptions>
 				{
@@ -44,13 +57,13 @@ namespace DiskontPica.Controllers
 						PriceData = new SessionLineItemPriceDataOptions
 						{
 							Currency=currancy,
-							UnitAmount =Convert.ToInt32(order.finalPrice),
+							UnitAmount=Convert.ToInt32(existingOrder.finalPrice*100),
 							ProductData = new SessionLineItemPriceDataProductDataOptions
 							{
-								Name = order.orderId.ToString()
+								Name=existingOrder.orderId.ToString()
 							}
 						},
-						Quantity=1
+						Quantity=1,
 					}
 				},
 				Mode = "payment",
@@ -61,7 +74,7 @@ namespace DiskontPica.Controllers
 			var session = service.Create(options);
 			SessionId=session.Id;
 
-			return Redirect(session.Url);
+			return Json(session.Url);
 
 		}
 	}

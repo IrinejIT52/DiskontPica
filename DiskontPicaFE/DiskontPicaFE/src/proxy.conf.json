@@ -1,0 +1,7 @@
+{
+    "/stripe":{
+        "target":"http://localhost:5086/api",
+        "secure":true,
+        "logLevel":"debug"
+    }
+}

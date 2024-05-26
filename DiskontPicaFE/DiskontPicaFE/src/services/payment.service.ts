@@ -11,7 +11,7 @@ export class PaymentService {
 
   constructor(private httpClinet:HttpClient) { }
 
-  public CreateCheckOutSession(order:Order):Observable<any>{
-    return this.httpClinet.post(Constant.API_STRIPE,order);
+  public CreateCheckOutSession(orderId:number):Observable<any>{
+    return this.httpClinet.post(Constant.API_STRIPE,orderId);
   }
 }
