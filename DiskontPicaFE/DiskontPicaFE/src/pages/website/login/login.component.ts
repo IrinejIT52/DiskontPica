@@ -33,6 +33,10 @@ export class LoginComponent {
     password:''
   };
 
+  toRegister(){
+    this.router.navigateByUrl('/register')
+  }
+
   onLogin(){
         this.loginService.login(this.principal).subscribe(
           data => {

@@ -42,7 +42,7 @@ namespace DiskontPica.Controllers
 			return Ok(products);
 		}
 
-		[Authorize(Policy = IdentityData.AdminPolicy)]
+		[AllowAnonymous]
 		[HttpGet("product/{id}")]
 		public ActionResult<Product> GetProductById(int id)
 		{

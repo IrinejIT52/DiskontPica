@@ -7,7 +7,8 @@ import { CustomerService } from '../../../services/customer.service';
 import { OrderItem } from '../../../models/orderItem';
 import { OrdersService } from '../../../services/orders.service';
 import { Router } from '@angular/router';
-import { last } from 'rxjs';
+import { last, timeInterval } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-customer-cart',
@@ -48,6 +49,12 @@ export class CustomerCartComponent {
 
 
   checkOut(){
+
+    if(localStorage.getItem('token')==null){
+      this.router.navigateByUrl('/login')
+      
+    }
+    else{
   
     //customerId
     const{name}= this.parseJwt(localStorage.getItem('token'))
@@ -80,16 +87,19 @@ export class CustomerCartComponent {
 
       this.orderService.AddOrder(this.order).subscribe((data)=>{
         this.cartService.clear();
-      })
-
-      this.orderService.GetOrderByCustomer(this.order.customerId).subscribe((data)=>{
-        var lastIndex=data.length-1;
-        this.orderId=data[lastIndex].orderId;
-
-        this.paymentService.CreateCheckOutSession(this.orderId).subscribe((data)=>{
-          document.location.href = data;
+        this.orderService.GetOrderByCustomer(this.order.customerId).subscribe((data)=>{
+          console.log(data)
+          var lastIndex=data.length-1;
+          this.orderId=data[lastIndex].orderId;
+  
+          this.paymentService.CreateCheckOutSession(this.orderId).subscribe((data)=>{
+            document.location.href = data;
+          })
         })
-      })
+      });
+      
+
+     
 
 
       
@@ -97,18 +107,7 @@ export class CustomerCartComponent {
 
 
     })
-
-    
-    
-    
-
-    
-
-   
-
-
-
-
+  }
   
   }
 

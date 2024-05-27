@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="javascript:void(0)">Logo</a>
+    <img src="/assets/discontPica.PNG" style="width: 100px; height: 50px; ">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -14,7 +14,8 @@
         </li>
       </ul>
     </div>
-    <button (click)="logout()">Log out</button>
+    <button *ngIf="!this.isLogged" (click)="login()">Log in</button>
+    <button *ngIf="this.isLogged" (click)="logout()">Log out</button>
   </div>
 </nav>
 <div class="container-fluid">

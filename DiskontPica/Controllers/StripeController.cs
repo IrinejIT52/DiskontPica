@@ -37,11 +37,11 @@ namespace DiskontPica.Controllers
 
 			if (existingOrder == null)
 			{
-				return NotFound("Order not found"+orderId);
+				return NotFound("Order not found "+orderId);
 			}
 
 			var currancy = "rsd";
-			var successUrl = "http://localhost:4200/product";
+			var successUrl = "http://localhost:4200/customer-orders";
 			
 
 			StripeConfiguration.ApiKey = _settings.SecretKey;

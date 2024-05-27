@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { CustomerService } from '../../../services/customer.service';
 import { Customer } from '../../../models/customer';
 import { HttpStatusCode } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-register',
@@ -15,9 +16,12 @@ import { HttpStatusCode } from '@angular/common/http';
 })
 export class RegisterComponent {
 
-  
+  email:boolean=false;
 
-  constructor(private customerService:CustomerService, private router:Router) { }
+  constructor(private customerService:CustomerService, private router:Router,public snackBar: MatSnackBar) { }
+
+
+  
 
   customer:Customer= {
     name: '',
@@ -32,9 +36,12 @@ export class RegisterComponent {
 
   onRegister(){
     this.customerService.GetCustomerByName(this.customer.name).subscribe((data)=>{
-      if(data[0] != null)
+      if(data!=null)
         {
-          alert('Name alreday exists!')
+          
+          this.snackBar.open('Wrong name or email', 'Close', {
+            duration: 2500
+          });
         }
       else
       {
@@ -42,6 +49,11 @@ export class RegisterComponent {
           if(data != HttpStatusCode.BadRequest)
           {
               this.router.navigateByUrl('/login')
+          }
+          else{
+            this.snackBar.open('Wrong name or email', 'Close', {
+              duration: 2500
+            });
           }
           
             

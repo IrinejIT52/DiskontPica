@@ -11,21 +11,28 @@ import { CategoriesComponent } from '../pages/admin/categories/categories.compon
 import { CustomersComponent } from '../pages/admin/customers/customers.component';
 import { OrdersComponent } from '../pages/admin/orders/orders.component';
 import { RegisterComponent } from '../pages/website/register/register.component';
+import { LoginLayoutComponent } from '../pages/website/login-layout/login-layout.component';
 
 export const routes: Routes = [
 
     {
         path:'',
-        redirectTo:'register',
+        redirectTo:'product',
         pathMatch:'full'
     },
     {
-        path:'register',
-        component:RegisterComponent
-    },
-    {
-        path:'login',
-        component:LoginComponent
+        path:'',
+        component:LoginLayoutComponent,
+        children:[
+            {
+                path:'register',
+                component:RegisterComponent
+            },
+            {
+                path:'login',
+                component:LoginComponent
+            },
+        ]
     },
     {
         path:'',

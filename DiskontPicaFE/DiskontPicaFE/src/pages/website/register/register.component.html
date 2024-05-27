@@ -15,7 +15,7 @@
             </div>
              <div class="form-control">
               <i class="fas fa-user icon"></i>
-              <input type="text" [(ngModel)]="customer.email" name="email"  placeholder="Email" required>
+              <input type="email" [(ngModel)]="customer.email" name="email" ngModel [email]="true"  placeholder="Email" required>
             </div>
             <div class="form-control">
                 <i class="fas fa-user icon"></i>

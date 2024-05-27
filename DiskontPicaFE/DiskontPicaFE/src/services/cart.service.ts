@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Product } from '../models/product';
+import { ProductService } from './product.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
 
-  constructor() { }
+  constructor(private productService:ProductService) { }
 
   public cartList:any[]= JSON.parse(localStorage.getItem('cartItems') || '[]');
 
@@ -29,16 +30,21 @@ export class CartService {
     
   incrementQuantity(id:number){
     let product = this.cartList.find((i)=>i.productId === id)
-    if(product){
-      product.quantity++;
-    }
+    this.productService.GetProductById(product.productId).subscribe((data)=>{
+
+      if(product.quantity<=data.stock-1){
+        product.quantity++;
+      }
+      
+    })
+    
 
     localStorage.setItem('cartItems', JSON.stringify(this.cartList))
   }
 
   decrementQuantity(id:number){
     let product = this.cartList.find((i)=>i.productId === id)
-    if(product){
+    if(product.quantity!=1){
       product.quantity--;
     }
 
