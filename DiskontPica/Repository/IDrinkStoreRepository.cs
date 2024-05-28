@@ -55,6 +55,7 @@ namespace DiskontPica.Repository
 		OrderItem GetOrderItemById(int orderItemId);
 		void AddOrderItem(OrderItem orderItem);
 		void UpdateOrderItem(OrderItem orderItem);
+		void UpdateStatus(int id);
 		void DeleteOrderItem(int orderItemId);
 
 		IEnumerable<OrderItem> GetOrderItemsByOrder(int id);

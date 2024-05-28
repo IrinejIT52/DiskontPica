@@ -247,6 +247,14 @@ namespace DiskontPica.Repository
 			_dbContext.SaveChanges();
 		}
 
+		public void UpdateStatus(int id)
+		{
+			Order order = _dbContext.Orders.Find(id);
+			order.orderStatus = OrderStatus.CONFIRMED;
+			_dbContext.Orders.Entry(order).State = EntityState.Modified;
+			_dbContext.SaveChanges();
+		}
+
 		public void UpdateOrderItem(OrderItem orderItem)
 		{
 			_dbContext.OrderItem.Entry(orderItem).State = EntityState.Modified;
