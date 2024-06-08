@@ -10,12 +10,12 @@
           <a class="nav-link" routerLink="product">Products</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="customer-orders">Your Orders</a>
+          <a class="nav-link" *ngIf="this.isLogged" routerLink="customer-orders">Your Orders</a>
         </li>
       </ul>
     </div>
-    <button *ngIf="!this.isLogged" (click)="login()">Log in</button>
-    <button *ngIf="this.isLogged" (click)="logout()">Log out</button>
+    <button mat-raised-button color="primary" *ngIf="!this.isLogged" (click)="login()">Log in</button>
+    <button mat-raised-button color="warn" *ngIf="this.isLogged" (click)="logout()">Log out</button>
   </div>
 </nav>
 <div class="container-fluid">

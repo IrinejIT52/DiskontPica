@@ -9,8 +9,8 @@
     <mat-table #table [dataSource]="dataSource" class="mat-cell" matSort> 
 
       <ng-container matColumnDef="customerId">
-        <mat-header-cell  *matHeaderCellDef mat-sort-header>Customer Name</mat-header-cell>
-        <mat-cell  *matCellDef="let row">{{ customerList[row.customerId-1].name }}</mat-cell>
+        <mat-header-cell  *matHeaderCellDef mat-sort-header>Customer Id</mat-header-cell>
+        <mat-cell  *matCellDef="let row">{{ row.customerId }}</mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="finalPrice">

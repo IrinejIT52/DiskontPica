@@ -34,7 +34,6 @@ export class OrdersComponent implements OnInit,OnDestroy {
   dataSource!: MatTableDataSource<Order>;
   @ViewChild(MatPaginator, {static: false}) paginator!: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort!: MatSort;
-  public customerList: Customer[] =[];
   highlighted?: boolean;
   hovered?: boolean;
 
@@ -49,15 +48,10 @@ export class OrdersComponent implements OnInit,OnDestroy {
 
   ngOnInit(): void { 
     this.loadData(); 
-    this.customerService.GetAllCustomers().subscribe((data)=>{
-      this.customerList=data;
-    })
-
-    this.loadDataCustomer();
-
+    
     
   }
-  ngOnChanges(): void { 
+  ngOnChanges(): void {
     if(this.customer.customerId){
        this.loadDataCustomer();
     }
@@ -74,15 +68,18 @@ export class OrdersComponent implements OnInit,OnDestroy {
   public loadData(){
     this.subscription = this.orderService.GetAllOrders().subscribe(
       data => {
+        
         this.dataSource = new MatTableDataSource(data);
+        
 
         this.dataSource.sortingDataAccessor =(row:Order,columnName:string):string => {
           var columnValue = row[columnName as keyof Order] as unknown as string;
           return columnValue;
         }
-
         this.dataSource.sort = this.sort;
         this.dataSource.paginator=this.paginator;
+
+        
       }
     )
   }

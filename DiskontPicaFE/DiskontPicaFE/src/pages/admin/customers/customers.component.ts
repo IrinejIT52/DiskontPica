@@ -31,7 +31,7 @@ import { OrdersComponent } from "../orders/orders.component";
 export class CustomersComponent {
 
   subscription!: Subscription;
-  displayedColumns = ['name', 'email','adress'];
+  displayedColumns = ['customerId','name', 'email','adress'];
   dataSource!: MatTableDataSource<Customer>;
   @ViewChild(MatPaginator, {static: false}) paginator!: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort!: MatSort;

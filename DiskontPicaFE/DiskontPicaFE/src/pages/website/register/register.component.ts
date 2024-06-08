@@ -36,7 +36,7 @@ export class RegisterComponent {
 
   onRegister(){
     this.customerService.GetCustomerByName(this.customer.name).subscribe((data)=>{
-      if(data!=null)
+      if(data[0]!=null)
         {
           
           this.snackBar.open('Wrong name or email', 'Close', {

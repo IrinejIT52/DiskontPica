@@ -3,12 +3,13 @@ import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { ProductService } from '../../../services/product.service';
 import { CommonModule } from '@angular/common';
 import { CartService } from '../../../services/cart.service';
+import { MatButtonModule } from '@angular/material/button';
 
 
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [RouterOutlet,RouterLink,CommonModule],
+  imports: [RouterOutlet,RouterLink,CommonModule, MatButtonModule],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.css'
 })
