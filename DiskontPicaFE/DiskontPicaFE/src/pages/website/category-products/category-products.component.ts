@@ -19,11 +19,12 @@ import { Country } from '../../../models/county';
 import { Administrator } from '../../../models/administrator';
 import { CustomerCartComponent } from '../customer-cart/customer-cart.component';
 import { CartService } from '../../../services/cart.service';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-category-products',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatPaginator, MatSort, MatFormFieldModule, MatToolbarModule, MatIconModule, MatInputModule,CustomerCartComponent],
+  imports: [CommonModule, MatTableModule, MatPaginator, MatSort, MatFormFieldModule, MatToolbarModule, MatIconModule, MatInputModule,CustomerCartComponent,MatButtonModule],
   templateUrl: './category-products.component.html',
   styleUrl: './category-products.component.css'
 })

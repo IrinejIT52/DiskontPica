@@ -35,8 +35,8 @@
           <p>Cart</p>
         </mat-header-cell>
         <mat-cell  *matCellDef="let row; let i = index" >
-          <button (click)="addToCart(row)"  mat-icon-button color="primary">
-            <i class="fa fa-cart-plus mr-2"></i>&nbsp;Add
+          <button mat-raised-button color="primary" (click)="addToCart(row)" >
+            Add
           </button>
         </mat-cell>
        
