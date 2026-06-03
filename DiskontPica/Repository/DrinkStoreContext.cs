@@ -1,4 +1,4 @@
-﻿using DiskontPica.Models;
+using DiskontPica.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -30,7 +30,11 @@ namespace DiskontPica.Repository
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
-			optionsBuilder.UseSqlServer("Data Source=IRINEJ\\SQLEXPRESS;Initial Catalog=DrinkStore;Integrated Security=True;Encrypt=False");
+			if (!optionsBuilder.IsConfigured)
+			{
+				var connectionString = configuration.GetConnectionString("DB");
+				optionsBuilder.UseNpgsql(connectionString);
+			}
 		}
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)

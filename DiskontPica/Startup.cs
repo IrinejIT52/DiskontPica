@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Stripe;
 using System.Text;
+using AutoMapper;
 
 namespace DiskontPica
 {
@@ -31,9 +32,7 @@ namespace DiskontPica
 			services.AddScoped<IDrinkStoreRepository, DrinkStoreRepository>();
 			services.AddScoped<IAuthenticationHelper, AuthenticationHelper>();
 			services.AddDbContext<DrinkStoreContext>();
-			services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-			services.AddAutoMapper(typeof(AdministratorProfile).Assembly);
-			services.AddAutoMapper(typeof(CustomerProfile).Assembly);
+			services.AddAutoMapper(cfg => cfg.AddMaps(typeof(Startup).Assembly));
 			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 			{
 				options.TokenValidationParameters = new TokenValidationParameters
@@ -98,9 +97,6 @@ namespace DiskontPica
 				}
 
 
-				
-
-				app.UseHttpsRedirection();
 
 				app.UseRouting();
 
@@ -112,22 +108,19 @@ namespace DiskontPica
 
 				app.UseAuthorization();
 
-				
-
-
-				app.UseEndpoints(endpoints =>
-				{
-					endpoints.MapControllers();
-				});
-
-				app.UseSwagger();
+					app.UseSwagger();
 				app.UseSwaggerUI(options =>
 				{
 					options.SwaggerEndpoint("/swagger/v1/swagger.json", "DrinkStore");
 					options.RoutePrefix = string.Empty;
 				});
 
+				app.UseEndpoints(endpoints =>
+				{
+					endpoints.MapControllers();
+				});
 
+			
 
 
 				

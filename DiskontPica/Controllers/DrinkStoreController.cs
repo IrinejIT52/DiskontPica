@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Azure.Messaging;
+using AutoMapper;
 using DiskontPica.DTO;
 using DiskontPica.Models;
 using DiskontPica.Repository;
@@ -35,7 +34,7 @@ namespace DiskontPica.Controllers
 		public ActionResult<IEnumerable<Product>> GetAllProducts()
 		{
 			var products = _drinkStoreRepository.GetAllProducts();
-			if(products.IsNullOrEmpty())
+			if (products == null || !products.Any())
 			{
 				return NotFound("No products");
 			}
@@ -153,7 +152,7 @@ namespace DiskontPica.Controllers
 		public ActionResult<IEnumerable<Country>> GetAllCountries()
 		{
 			var obj = _drinkStoreRepository.GetAllCountries();
-			if (obj.IsNullOrEmpty())
+			if (obj == null || !obj.Any())
 			{
 				return NotFound("No countries");
 			}
@@ -216,7 +215,7 @@ namespace DiskontPica.Controllers
 		public ActionResult<IEnumerable<Category>> GetAllCategories()
 		{
 			var obj = _drinkStoreRepository.GetAllCategories();
-			if (obj.IsNullOrEmpty())
+			if (obj == null || !obj.Any())
 			{
 				return NotFound("No categories found");
 			}
@@ -277,7 +276,7 @@ namespace DiskontPica.Controllers
 		public ActionResult<IEnumerable<Order>> GetAllOrders()
 		{
 			var obj = _drinkStoreRepository.GetAllOrders();
-			if (obj.IsNullOrEmpty())
+			if (obj == null || !obj.Any())
 			{
 				return NotFound("No orders found");
 			}
@@ -380,7 +379,7 @@ namespace DiskontPica.Controllers
 		public ActionResult<IEnumerable<OrderItem>> GetAllOrderItems()
 		{
 			var obj = _drinkStoreRepository.GetAllOrderItems();
-			if (obj.IsNullOrEmpty())
+			if (obj == null || !obj.Any())
 			{
 				return NotFound("No order items found");
 			}
@@ -462,7 +461,7 @@ namespace DiskontPica.Controllers
 		public ActionResult<IEnumerable<Administrator>> GetAllAdministrators()
 		{
 			var obj = _drinkStoreRepository.GetAllAdministrators();
-			if (obj.IsNullOrEmpty())
+			if (obj == null || !obj.Any())
 			{
 				return NotFound("No administrator found");
 			}
@@ -545,7 +544,7 @@ namespace DiskontPica.Controllers
 		public ActionResult<IEnumerable<Customer>> GetAllCustomers()
 		{
 			var obj = _drinkStoreRepository.GetAllCustomers();
-			if (obj.IsNullOrEmpty())
+			if (obj == null || !obj.Any())
 			{
 				return NotFound("No customers found");
 			}
