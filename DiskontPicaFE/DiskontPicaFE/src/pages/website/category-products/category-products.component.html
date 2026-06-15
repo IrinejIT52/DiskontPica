@@ -1,58 +1,47 @@
- 
-   <mat-toolbar class="toolbarNew" color="primary">
-    <span class="title-center">Products</span>
-</mat-toolbar>
-  <div class="container mat-elavation-z8">
-    <mat-form-field>
-      <input matInput placeholder="Pretraga proizvoda..." (keyup)="applyFilter($event)">
-    </mat-form-field>
-    <mat-table #table [dataSource]="dataSource" class="mat-cell" matSort> 
+<div class="products-page">
 
-      <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
-        <mat-cell *matCellDef="let row">{{ row.name }}</mat-cell>
-      </ng-container>
+  <!-- Search Bar -->
+  <div class="search-bar-wrapper">
+    <div class="search-bar">
+      <i class="fa fa-search search-icon"></i>
+      <input type="text" class="search-input" placeholder="Search products..." (input)="applyFilter($event)" />
+    </div>
+  </div>
 
-      <ng-container matColumnDef="description">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
-        <mat-cell *matCellDef="let row">{{ row.description }}</mat-cell>
-      </ng-container>
+  <!-- Product Grid -->
+  <div class="product-grid">
+    @for (product of filteredProducts; track product.productId) {
+    <div class="product-card" [class.out-of-stock]="product.stock === 0">
 
-      <ng-container matColumnDef="price">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Price</mat-header-cell>
-        <mat-cell *matCellDef="let row">{{ row.price }}</mat-cell>
-      </ng-container>
+      <!-- Product Image -->
+      <div class="product-image-wrapper" [style.background]="getProductGradient(product.name)">
+        @if (getProductImage(product.name); as img) {
+        <img [src]="img" [alt]="product.name" class="product-img" />
+        } @else {
+        <span class="product-emoji">{{ getProductEmoji(product.name) }}</span>
+        }
+        <div class="stock-badge" [class.low-stock]="product.stock < 100">
+          {{ product.stock > 0 ? 'In Stock' : 'Out of Stock' }}
+        </div>
+      </div>
 
-      <ng-container matColumnDef="stock">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Stock</mat-header-cell>
-        <mat-cell *matCellDef="let row">{{ row.stock }}</mat-cell>
-      </ng-container>
-
-     
-      <!-- Action Buttons -->
-      <ng-container matColumnDef="actions">
-        <mat-header-cell *matHeaderCellDef>
-          <p>Cart</p>
-        </mat-header-cell>
-        <mat-cell  *matCellDef="let row; let i = index" >
-          <button mat-raised-button color="primary" (click)="addToCart(row)" >
-            Add
+      <!-- Card Body -->
+      <div class="product-card-body">
+        <h3 class="product-name">{{ product.name }}</h3>
+        <p class="product-description">{{ product.description }}</p>
+        <div class="product-footer">
+          <span class="product-price">{{ product.price | number:'1.2-2' }} €</span>
+          <button class="btn-add-cart" (click)="addToCart(product)" [disabled]="product.stock === 0">
+            <i class="fa fa-cart-plus"></i> Add
           </button>
-        </mat-cell>
-       
-      </ng-container>
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row
-        
-        style="cursor: pointer;"
-        *matRowDef="let row; columns: displayedColumns" >
-      </mat-row>
-    </mat-table>
-    <mat-paginator [length]="100" [pageSize]="5" [pageSizeOptions]="[5,10,25,100]">
-    </mat-paginator>
+        </div>
+      </div>
+
+    </div>
+    }
   </div>
 
-  <div class="container-fluid">
-    <app-customer-cart></app-customer-cart>
-  </div>
- 
+  <!-- Cart Sidebar -->
+  <app-customer-cart></app-customer-cart>
+
+</div>

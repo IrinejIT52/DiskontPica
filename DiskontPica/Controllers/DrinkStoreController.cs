@@ -609,10 +609,10 @@ namespace DiskontPica.Controllers
 		[HttpGet("customer/by_name/{name}")]
 		public ActionResult<Customer> GetCustomerByName(string name)
 		{
-			var obj = _drinkStoreRepository.GetCustomerByName(name);
-			if (obj == null)
+			var obj = _drinkStoreRepository.GetCustomerByName(name).ToList();
+			if (obj == null || !obj.Any())
 			{
-				return NotFound("No custmore found");
+				return Ok(new List<Customer>());
 			}
 
 			return Ok(obj);

@@ -1,23 +1,21 @@
-<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-  <div class="container-fluid">
-    <img src="/assets/discontPica.PNG" style="width: 100px; height: 50px; ">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="mynavbar">
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="product">Products</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" *ngIf="this.isLogged" routerLink="customer-orders">Your Orders</a>
-        </li>
-      </ul>
+<nav class="diskont-navbar">
+  <div class="nav-container">
+    <a class="nav-brand" routerLink="product">
+      <img src="/assets/discontPica.PNG" alt="Diskont Pica" class="brand-img" />
+      <span class="brand-text">Diskont Pica</span>
+    </a>
+
+    <div class="nav-menu">
+      <a class="nav-link" routerLink="product" routerLinkActive="active">Products</a>
+      <a class="nav-link" *ngIf="this.isLogged" routerLink="customer-orders" routerLinkActive="active">Your Orders</a>
     </div>
-    <button mat-raised-button color="primary" *ngIf="!this.isLogged" (click)="login()">Log in</button>
-    <button mat-raised-button color="warn" *ngIf="this.isLogged" (click)="logout()">Log out</button>
+
+    <div class="nav-actions">
+      <button class="btn-primary-outline" *ngIf="!this.isLogged" (click)="login()">Log In</button>
+      <button class="btn-danger-outline" *ngIf="this.isLogged" (click)="logout()">Log Out</button>
+    </div>
   </div>
 </nav>
-<div class="container-fluid">
+<div class="content-wrapper">
   <router-outlet></router-outlet>
 </div>

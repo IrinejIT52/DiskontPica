@@ -1,29 +1,51 @@
-<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-    <div class="container-fluid">
-      <b style="color: white;">DASHBOARD</b>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="mynavbar">
-        <ul class="navbar-nav me-auto">
-          <li class="nav-item">
-            <a class="nav-link" routerLink="admin-products">Products</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="categories">Category</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="orders">Orders</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="customers">Customers</a>
-          </li>
-        </ul>
-      </div>
-      <button mat-raised-button color="warn" (click)="logout()">Log out</button>
+<div class="dashboard-layout">
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <img src="/assets/discontPica.PNG" alt="Diskont Pica Logo" class="brand-logo" />
+      <span class="brand-text">Admin</span>
     </div>
-  </nav>
-  <div class="container-fluid">
-    <router-outlet></router-outlet>
+    <ul class="sidebar-nav">
+      <li>
+        <a routerLink="admin-products" routerLinkActive="active" class="nav-item">
+          <i class="fa fa-box"></i> Products
+        </a>
+      </li>
+      <li>
+        <a routerLink="categories" routerLinkActive="active" class="nav-item">
+          <i class="fa fa-tags"></i> Categories
+        </a>
+      </li>
+      <li>
+        <a routerLink="orders" routerLinkActive="active" class="nav-item">
+          <i class="fa fa-shopping-cart"></i> Orders
+        </a>
+      </li>
+      <li>
+        <a routerLink="customers" routerLinkActive="active" class="nav-item">
+          <i class="fa fa-users"></i> Customers
+        </a>
+      </li>
+    </ul>
+    <div class="sidebar-footer">
+      <p>&copy; Diskont Pica Admin</p>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main-content">
+    <header class="top-header">
+      <div class="header-title">
+        <h2>Dashboard</h2>
+      </div>
+      <div class="header-actions">
+        <button class="btn-logout" (click)="logout()">
+          <i class="fa fa-sign-out"></i> Log Out
+        </button>
+      </div>
+    </header>
+    <main class="content-body">
+      <router-outlet></router-outlet>
+    </main>
   </div>
-  
+</div>

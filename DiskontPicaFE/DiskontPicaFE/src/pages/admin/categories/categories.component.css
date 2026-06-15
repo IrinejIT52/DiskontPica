@@ -1,0 +1,9 @@
+/* Categories admin page — shared table styles come from global styles.css */
+
+:host {
+  display: block;
+}
+
+mat-table {
+  width: 100%;
+}

@@ -1,22 +1,7 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableModule, MatTableDataSource  } from '@angular/material/table';
-import { MatDialogModule,MatDialog, MatDialogConfig} from '@angular/material/dialog';
-import { Subscription, timeInterval } from 'rxjs';
+import { CommonModule, DecimalPipe } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { Product } from '../../../models/product';
-import {  MatFormFieldModule } from '@angular/material/form-field';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
 import { ProductService } from '../../../services/product.service';
-import { MatInputModule } from '@angular/material/input';
-import { CountryService } from '../../../services/country.service';
-import { CategoryService } from '../../../services/category.service';
-import { AdminService } from '../../../services/admin.service';
-import { Category } from '../../../models/category';
-import { Country } from '../../../models/county';
-import { Administrator } from '../../../models/administrator';
 import { CustomerCartComponent } from '../customer-cart/customer-cart.component';
 import { CartService } from '../../../services/cart.service';
 import { MatButtonModule } from '@angular/material/button';
@@ -24,58 +9,78 @@ import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'app-category-products',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatPaginator, MatSort, MatFormFieldModule, MatToolbarModule, MatIconModule, MatInputModule,CustomerCartComponent,MatButtonModule],
+  imports: [CommonModule, DecimalPipe, CustomerCartComponent, MatButtonModule],
   templateUrl: './category-products.component.html',
   styleUrl: './category-products.component.css'
 })
-export class CategoryProductsComponent {
-  subscription!: Subscription;
-  displayedColumns = ['name', 'description', 'price', 'stock', 'actions'];
-  dataSource!: MatTableDataSource<Product>;
-  @ViewChild(MatPaginator, {static: false}) paginator!: MatPaginator;
-  @ViewChild(MatSort, {static: false}) sort!: MatSort;
+export class CategoryProductsComponent implements OnInit {
 
-  
-  
+  allProducts: Product[] = [];
+  filteredProducts: Product[] = [];
 
-  constructor(private productService:ProductService,private cartService:CartService){}
+  constructor(private productService: ProductService, private cartService: CartService) {}
 
-  ngOnInit(): void { 
-    this.loadData(); }
-
-  ngOnChanges(): void { 
-    this.loadData(); }
-
-  
-
-  public loadData(){
-    this.subscription = this.productService.GetAllProducts().subscribe(
-      data => {
-        this.dataSource = new MatTableDataSource(data);
-
-        this.dataSource.sortingDataAccessor =(row:Product,columnName:string):string => {
-          var columnValue = row[columnName as keyof Product] as unknown as string;
-          return columnValue;
-        }
-
-        this.dataSource.sort = this.sort;
-
-        this.dataSource.paginator=this.paginator;
-      }
-    )
+  ngOnInit(): void {
+    this.loadData();
   }
 
-  applyFilter(filterValue: any) {
-    filterValue = filterValue.target.value
-    filterValue = filterValue.trim();
-    filterValue = filterValue.toLocaleLowerCase();
-    this.dataSource.filter = filterValue; 
+  loadData() {
+    this.productService.GetAllProducts().subscribe(data => {
+      this.allProducts = data;
+      this.filteredProducts = data;
+    });
   }
 
-  addToCart(product:Product){
+  applyFilter(event: any) {
+    const term = (event.target.value || '').trim().toLowerCase();
+    this.filteredProducts = this.allProducts.filter(p =>
+      p.name.toLowerCase().includes(term) ||
+      p.description.toLowerCase().includes(term)
+    );
+  }
+
+  addToCart(product: Product) {
     this.cartService.addToCart(product);
   }
 
- 
+  /** Returns a local asset path for a product image, or null to use the emoji fallback */
+  getProductImage(name: string): string | null {
+    const n = name.toLowerCase();
+    if (n.includes('water') || n.includes('vivia') || n.includes('prolom')) {
+      return '/assets/product_water.png';
+    }
+    if (n.includes('cola') || n.includes('fanta') || n.includes('sprite')) {
+      return '/assets/product_cola.png';
+    }
+    if (n.includes('red bull') || n.includes('monster') || n.includes('energy')) {
+      return '/assets/product_energy.png';
+    }
+    if (n.includes('beer') || n.includes('jelen') || n.includes('heineken') ||
+        n.includes('zajecarsko') || n.includes('paulaner')) {
+      return '/assets/product_beer.png';
+    }
+    // Whiskey and wine — no image generated, fall through to emoji
+    return null;
+  }
 
+  /** Returns a warm gradient for the card image area when no photo is available */
+  getProductGradient(name: string): string {
+    const n = name.toLowerCase();
+    if (n.includes('whiskey') || n.includes('bourbon') || n.includes('jameson')) {
+      return 'linear-gradient(135deg, #92400e 0%, #78350f 50%, #451a03 100%)';
+    }
+    if (n.includes('wine') || n.includes('vranac') || n.includes('chardonnay')) {
+      return 'linear-gradient(135deg, #7f1d1d 0%, #9f1239 50%, #4c0519 100%)';
+    }
+    // Generic gradient for image-based products (image will cover it)
+    return 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)';
+  }
+
+  /** Returns an emoji for products without a photo */
+  getProductEmoji(name: string): string {
+    const n = name.toLowerCase();
+    if (n.includes('whiskey') || n.includes('bourbon') || n.includes('jameson')) return '🥃';
+    if (n.includes('wine') || n.includes('vranac') || n.includes('chardonnay')) return '🍷';
+    return '🍶';
+  }
 }

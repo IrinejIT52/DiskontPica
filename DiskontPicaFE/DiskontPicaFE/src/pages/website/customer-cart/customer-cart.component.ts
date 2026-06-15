@@ -14,7 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'app-customer-cart',
   standalone: true,
-  imports: [CommonModule,MatButtonModule],
+  imports: [CommonModule, MatButtonModule],
   templateUrl: './customer-cart.component.html',
   styleUrl: './customer-cart.component.css'
 })

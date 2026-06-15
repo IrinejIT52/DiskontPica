@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DiskontPica.Models
@@ -15,6 +15,7 @@ namespace DiskontPica.Models
 		public DateOnly orderDate {  get; set; }
 		public OrderStatus orderStatus { get; set; }
 		public OrderType orderType { get; set; }
+		[Column("additionalInfo")]
 		public string addiitionalInfo { get; set; }
 	}
 }

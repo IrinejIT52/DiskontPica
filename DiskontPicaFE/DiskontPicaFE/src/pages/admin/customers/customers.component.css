@@ -1,0 +1,14 @@
+/* Customers admin page — shared table styles come from global styles.css */
+
+:host {
+  display: block;
+}
+
+mat-table {
+  width: 100%;
+}
+
+mat-form-field {
+  width: 100%;
+  max-width: 400px;
+}

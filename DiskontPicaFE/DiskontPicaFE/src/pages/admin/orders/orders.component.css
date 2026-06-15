@@ -1,6 +1,19 @@
-table{
+/* Orders admin page — shared table styles come from global styles.css */
 
-}   
-.highLight{
-    background: gray;
+:host {
+  display: block;
+}
+
+mat-table {
+  width: 100%;
+}
+
+mat-form-field {
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Highlight row */
+.highLight {
+  background: rgba(251, 191, 36, 0.15) !important;
 }

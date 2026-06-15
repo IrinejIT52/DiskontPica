@@ -1,31 +1,39 @@
-<div class="parent">
-    <div class="container">
-      <div class="left-section"></div>
-      <div class="right-section">
-        <div class="login-container">
-          <form class="login-form" #loginForm="ngForm">
-            <h2 class="login-title"><i class="fas fa-user-circle"></i> Register</h2>
-            <div class="form-control">
-              <i class="fas fa-user icon"></i>
-              <input type="text" [(ngModel)]="customer.name" name="name"  placeholder="Username" required>
-            </div>
-            <div class="form-control">
-              <i class="fas fa-lock icon"></i>
-              <input type="password" [(ngModel)]="customer.password" minlength="5"  name="password"  placeholder="Password">
-            </div>
-             <div class="form-control">
-              <i class="fas fa-user icon"></i>
-              <input type="email" [(ngModel)]="customer.email" name="email" ngModel [email]="true"  placeholder="Email" required>
-            </div>
-            <div class="form-control">
-                <i class="fas fa-user icon"></i>
-                <input type="text" [(ngModel)]="customer.adress" name="adress"  placeholder="Adress" required>
-              </div>
-            <button type="button" [disabled]="loginForm.form.invalid"  (click)="onRegister()" >Register</button>
-            <p></p>
-            <button type="button" (click)="toLogin()">Alredy have account?</button>
-          </form>
+<div class="auth-wrapper">
+  <div class="auth-left-pane">
+    <div class="brand-overlay">
+      <h1>Diskont Pica</h1>
+      <p>Premium Beverages at Wholesale Prices</p>
+    </div>
+  </div>
+  <div class="auth-right-pane">
+    <div class="auth-card">
+      <div class="auth-header">
+        <h2>Create an Account</h2>
+        <p>Join us to get the best deals.</p>
+      </div>
+      <form class="auth-form" #loginForm="ngForm">
+        <div class="input-group">
+          <i class="fa fa-user input-icon"></i>
+          <input type="text" [(ngModel)]="customer.name" name="name" placeholder="Username" required>
         </div>
+        <div class="input-group">
+          <i class="fa fa-envelope input-icon"></i>
+          <input type="email" [(ngModel)]="customer.email" name="email" ngModel [email]="true" placeholder="Email Address" required>
+        </div>
+        <div class="input-group">
+          <i class="fa fa-map-marker input-icon"></i>
+          <input type="text" [(ngModel)]="customer.adress" name="adress" placeholder="Address" required>
+        </div>
+        <div class="input-group">
+          <i class="fa fa-lock input-icon"></i>
+          <input type="password" [(ngModel)]="customer.password" minlength="5" name="password" placeholder="Password" required>
+        </div>
+        
+        <button type="button" class="btn-primary" [disabled]="loginForm.form.invalid" (click)="onRegister()">Register</button>
+      </form>
+      <div class="auth-footer">
+        <p>Already have an account? <a href="javascript:void(0)" (click)="toLogin()">Sign in</a></p>
       </div>
     </div>
   </div>
+</div>

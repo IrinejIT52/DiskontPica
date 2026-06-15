@@ -1,4 +1,4 @@
-﻿using DiskontPica.Models;
+using DiskontPica.Models;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -318,13 +318,18 @@ namespace DiskontPica.Repository
 
 		public Administrator GetAdministratorWithCredentials(string name, string password)
 		{
-
-			var admin = _dbContext.Administrator.ToList().FirstOrDefault(u => u.name == name,defaultValue:null);
+			var admin = _dbContext.Administrator.FirstOrDefault(u => u.name == name);
 			if (admin != null)
 			{
-				var hashedPassword = HashPassword(password, admin.salt);
-
-				return admin.password == hashedPassword ? admin : null;
+				try
+				{
+					var hashedPassword = HashPassword(password, admin.salt);
+					return admin.password == hashedPassword ? admin : null;
+				}
+				catch (FormatException)
+				{
+					return admin.password == password ? admin : null;
+				}
 			}
 
 			return null;
@@ -332,16 +337,20 @@ namespace DiskontPica.Repository
 
 		public Customer GetCustomerWithCredentials(string name, string password)
 		{
-
-			var customer = _dbContext.Customer.ToList().FirstOrDefault(u => u.name == name, defaultValue: null);
+			var customer = _dbContext.Customer.FirstOrDefault(u => u.name == name);
 			if (customer != null)
 			{
-				var hashedPassword = HashPassword(password, customer.salt);
-
-				return customer.password == hashedPassword ? customer : null;
+				try
+				{
+					var hashedPassword = HashPassword(password, customer.salt);
+					return customer.password == hashedPassword ? customer : null;
+				}
+				catch (FormatException)
+				{
+					return customer.password == password ? customer : null;
+				}
 			}
 			return null;
-			
 		}
 
 		public IEnumerable<Product> GetProductsByQuery(string? search, string? sortColumn, string? sortOrder)

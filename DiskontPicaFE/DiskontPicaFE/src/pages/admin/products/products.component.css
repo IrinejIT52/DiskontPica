@@ -1,0 +1,17 @@
+/* Products admin page — shared table styles come from global styles.css */
+
+/* Page-level spacing */
+:host {
+  display: block;
+}
+
+/* Table fills available width */
+mat-table {
+  width: 100%;
+}
+
+/* Search bar wrapper */
+mat-form-field {
+  width: 100%;
+  max-width: 400px;
+}
