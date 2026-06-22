@@ -44,6 +44,8 @@ export class CustomerOrdersComponent implements OnInit,OnDestroy {
   public orderStatus: string[] =['PENDING','CONFIRMED','CANCELLED'];
   public orderType: string[] =['REGULAR','BIRTHDAY','ANNIVERSERY','PARTY'];
 
+  ordersList: Order[] = [];
+
   constructor(private orderService:OrdersService,private customerService:CustomerService,public snackBar: MatSnackBar){}
 
   parseJwt(token:any) {
@@ -65,40 +67,43 @@ export class CustomerOrdersComponent implements OnInit,OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
-
   public loadData(){
-    const{name}= this.parseJwt(localStorage.getItem('token'))
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    const{name}= this.parseJwt(token);
     this.customerService.GetCustomerByName(name).subscribe((data)=>{
       this.subscription = this.orderService.GetOrderByCustomer(data[0].customerId).subscribe((data)=>{
           data.sort((a:any, b:any) => b.orderId - a.orderId);
-
-          this.dataSource = new MatTableDataSource(data);
-
-          this.dataSource.sortingDataAccessor =(row:Order,columnName:string):string => {
-            var columnValue = row[columnName as keyof Order] as unknown as string;
-            return columnValue;
-          }
-
-          this.dataSource.sort = this.sort;
-          this.dataSource.paginator=this.paginator;
-          
+          this.ordersList = data;
         }
       )
     })
-
-    
-    
   }
 
+  getImageForType(type: number | string): string {
+    // In case the backend sends string or number enum
+    const t = typeof type === 'string' ? this.orderType.indexOf(type) : type;
+    switch(t) {
+      case 1: return 'https://images.unsplash.com/photo-1530103862676-de8892bf30ab?w=500&q=80'; // BIRTHDAY
+      case 2: return 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=500&q=80'; // ANNIVERSARY 
+      case 3: return 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500&q=80'; // PARTY
+      default: return 'https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=500&q=80'; // REGULAR
+    }
+  }
 
+  getStatusString(status: number | string): string {
+    if (typeof status === 'string') return status;
+    return this.orderStatus[status] || 'UNKNOWN';
+  }
 
-  applyFilter(filterValue: any) {
-    filterValue = filterValue.target.value
-    filterValue = filterValue.trim();
-    filterValue = filterValue.toLocaleLowerCase();
-    this.dataSource.filter = filterValue; 
+  getTypeString(type: number | string): string {
+    if (typeof type === 'string') return type;
+    return this.orderType[type] || 'UNKNOWN';
   }
 }

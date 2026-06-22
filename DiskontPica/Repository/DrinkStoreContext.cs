@@ -40,6 +40,18 @@ namespace DiskontPica.Repository
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			modelBuilder.Entity<OrderItem>().ToTable(tb => tb.HasTrigger("trg_DecreaseStock"));
+
+			// The PostgreSQL database stores orderStatus and orderType as VARCHAR(50)
+			// (e.g. "PENDING", "REGULAR") instead of integers.
+			// HasConversion<string>() tells EF Core to serialize/deserialize the enum
+			// as its name string, matching the actual column type.
+			modelBuilder.Entity<Order>()
+				.Property(o => o.orderStatus)
+				.HasConversion<string>();
+
+			modelBuilder.Entity<Order>()
+				.Property(o => o.orderType)
+				.HasConversion<string>();
 		}
 	}
 }

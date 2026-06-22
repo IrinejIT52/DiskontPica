@@ -1,4 +1,4 @@
-﻿using DiskontPica.Models;
+using DiskontPica.Models;
 using DiskontPica.Repository;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -50,7 +50,7 @@ namespace DiskontPica.Helper
 			var token = new JwtSecurityToken(_configuration["Jwt:Issuer"],
 											 _configuration["Jwt:Issuer"],
 											 claims,
-											 expires: DateTime.Now.AddMinutes(5),
+											 expires: DateTime.Now.AddDays(7),
 											 signingCredentials: credentials);
 
 			return new JwtSecurityTokenHandler().WriteToken(token);
@@ -72,7 +72,7 @@ namespace DiskontPica.Helper
 			var token = new JwtSecurityToken(_configuration["Jwt:Issuer"],
 											 _configuration["Jwt:Issuer"],
 											 claims,
-											 expires: DateTime.Now.AddMinutes(5),
+											 expires: DateTime.Now.AddDays(7),
 											 signingCredentials: credentials);
 
 			return new JwtSecurityTokenHandler().WriteToken(token);

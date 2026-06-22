@@ -2,18 +2,18 @@
   <div class="cart-header">🛒 Your Cart</div>
 
   @for(item of cartService.getCart(); track item.productId){
-    <div class="cart-item">
-      <div>
-        <h3>{{ item.name }}</h3>
-        <p>Price: <strong>{{ item.price }} RSD</strong></p>
-        <p>Quantity: <strong>{{ item.quantity }}</strong></p>
-      </div>
-      <div style="display: flex; gap: 8px; align-items: center;">
-        <button mat-raised-button color="primary" (click)="cartService.incrementQuantity(item.productId)">+</button>
-        <button mat-raised-button color="primary" (click)="cartService.decrementQuantity(item.productId)">−</button>
-        <button mat-raised-button color="warn" (click)="removeFromCart(item)">Remove</button>
-      </div>
+  <div class="cart-item">
+    <div>
+      <h3>{{ item.name }}</h3>
+      <p>Price: <strong>{{ item.price }} €</strong></p>
+      <p>Quantity: <strong>{{ item.quantity }}</strong></p>
     </div>
+    <div style="display: flex; gap: 8px; align-items: center;">
+      <button mat-raised-button color="primary" (click)="cartService.incrementQuantity(item.productId)">+</button>
+      <button mat-raised-button color="primary" (click)="cartService.decrementQuantity(item.productId)">−</button>
+      <button mat-raised-button color="warn" (click)="removeFromCart(item)">Remove</button>
+    </div>
+  </div>
   }
 
   <div class="cart-total">

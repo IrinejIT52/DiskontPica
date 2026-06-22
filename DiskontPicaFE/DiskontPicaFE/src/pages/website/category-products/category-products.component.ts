@@ -2,14 +2,13 @@ import { CommonModule, DecimalPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Product } from '../../../models/product';
 import { ProductService } from '../../../services/product.service';
-import { CustomerCartComponent } from '../customer-cart/customer-cart.component';
 import { CartService } from '../../../services/cart.service';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-category-products',
   standalone: true,
-  imports: [CommonModule, DecimalPipe, CustomerCartComponent, MatButtonModule],
+  imports: [CommonModule, DecimalPipe, MatButtonModule],
   templateUrl: './category-products.component.html',
   styleUrl: './category-products.component.css'
 })

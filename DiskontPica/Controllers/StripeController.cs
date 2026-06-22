@@ -1,4 +1,4 @@
-﻿using DiskontPica.Helper;
+using DiskontPica.Helper;
 using DiskontPica.Models;
 using DiskontPica.Repository;
 using Microsoft.AspNetCore.Authorization;
@@ -40,7 +40,7 @@ namespace DiskontPica.Controllers
 				return NotFound("Order not found "+orderId);
 			}
 
-			var currancy = "rsd";
+			var currancy = "eur";
 			var successUrl = "http://localhost:4200/customer-orders";
 			
 
@@ -70,12 +70,22 @@ namespace DiskontPica.Controllers
 				SuccessUrl = successUrl,
 			};
 
-			var service=new Stripe.Checkout.SessionService();
-			var session = service.Create(options);
-			SessionId=session.Id;
+			try
+			{
+				var service=new Stripe.Checkout.SessionService();
+				var session = service.Create(options);
+				SessionId=session.Id;
 
-			return Json(session.Url);
-
+				return Json(session.Url);
+			}
+			catch (StripeException e)
+			{
+				return BadRequest(e.Message);
+			}
+			catch (Exception e)
+			{
+				return StatusCode(500, e.Message);
+			}
 		}
 
 

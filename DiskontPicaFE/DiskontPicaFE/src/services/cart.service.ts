@@ -12,9 +12,19 @@ export class CartService {
   public cartList:any[]= JSON.parse(localStorage.getItem('cartItems') || '[]');
 
   addToCart(product:any){
-    this.cartList.push({...product, quantity:1});
+    let existingProduct = this.cartList.find((i) => i.productId === product.productId);
+    
+    if (existingProduct) {
+      if (existingProduct.quantity < product.stock) {
+        existingProduct.quantity++;
+      } else {
+        alert('Cannot add more of this item to the cart (out of stock).');
+      }
+    } else {
+      this.cartList.push({...product, quantity:1});
+    }
 
-    localStorage.setItem('cartItems', JSON.stringify(this.cartList))
+    localStorage.setItem('cartItems', JSON.stringify(this.cartList));
   }
 
 
@@ -58,10 +68,8 @@ export class CartService {
   }
 
   clear(){
-    this.cartList.forEach(element => {
-      this.cartList.pop()
-      this.cartList.pop()
-    });
+    this.cartList.length = 0;
+    localStorage.removeItem('cartItems');
   }
 
 

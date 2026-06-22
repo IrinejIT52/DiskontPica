@@ -1,10 +1,10 @@
-﻿namespace DiskontPica.Models
+namespace DiskontPica.Models
 {
 	public enum OrderType
 	{
 		REGULAR,
 		BIRTHDAY,
-		ANNIVERSERY,
+		ANNIVERSARY,
 		PARTY
 	}
 }

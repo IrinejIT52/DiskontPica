@@ -49,67 +49,13 @@ export class CustomerCartComponent {
   }
 
 
-  checkOut(){
-
+  checkOut() {
     if(localStorage.getItem('token')==null){
       this.router.navigateByUrl('/login')
-      
     }
-    else{
-  
-    //customerId
-    const{name}= this.parseJwt(localStorage.getItem('token'))
-    this.customerService.GetCustomerByName(name).subscribe((data)=>{
-      this.order.customerId=data[0].customerId;
-      
-      this.cartList=this.cartService.getCart();
-
-      this.order.orderItems=[];
-
-      this.cartList.forEach((product:any) => {
-        this.orderItem = {
-          orderId:0,
-          orderItemId:0,
-          productId:product.productId,
-          quantity:product.quantity,
-          priceQuantity:0
-        }
-        this.order.orderItems.push(this.orderItem)
-      });
-
-       const datee=formatDate(this.date,'yyyy-MM-dd', 'en-US')
-    
-      this.order.orderDate= datee;
-      this.order.orderStatus=0;
-      this.order.orderType=0;
-      this.order.addiitionalInfo="additional info";
-      this.order.finalPrice=0;
-
-
-      this.orderService.AddOrder(this.order).subscribe((data)=>{
-        this.cartService.clear();
-        this.orderService.GetOrderByCustomer(this.order.customerId).subscribe((data)=>{
-          console.log(data)
-          var lastIndex=data.length-1;
-          this.orderId=data[lastIndex].orderId;
-  
-          this.paymentService.CreateCheckOutSession(this.orderId).subscribe((data)=>{
-            document.location.href = data;
-          })
-        })
-      });
-      
-
-     
-
-
-      
-
-
-
-    })
-  }
-  
+    else {
+      this.router.navigateByUrl('/checkout');
+    }
   }
 
 }
