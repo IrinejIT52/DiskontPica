@@ -4,6 +4,8 @@ import { Product } from '../../../models/product';
 import { ProductService } from '../../../services/product.service';
 import { CartService } from '../../../services/cart.service';
 import { MatButtonModule } from '@angular/material/button';
+import { Category } from '../../../models/category';
+import { CategoryService } from '../../../services/category.service';
 
 @Component({
   selector: 'app-category-products',
@@ -16,8 +18,16 @@ export class CategoryProductsComponent implements OnInit {
 
   allProducts: Product[] = [];
   filteredProducts: Product[] = [];
+  allCategories: Category[] = [];
+  selectedCategoryId: number | null = null;
+  searchTerm: string = '';
+  currentSort: string = 'default';
 
-  constructor(private productService: ProductService, private cartService: CartService) {}
+  constructor(
+    private productService: ProductService, 
+    private cartService: CartService,
+    private categoryService: CategoryService
+  ) { }
 
   ngOnInit(): void {
     this.loadData();
@@ -26,16 +36,57 @@ export class CategoryProductsComponent implements OnInit {
   loadData() {
     this.productService.GetAllProducts().subscribe(data => {
       this.allProducts = data;
-      this.filteredProducts = data;
+      this.filterProducts();
+    });
+    
+    this.categoryService.GetAllCategories().subscribe(data => {
+      this.allCategories = data;
     });
   }
 
   applyFilter(event: any) {
-    const term = (event.target.value || '').trim().toLowerCase();
-    this.filteredProducts = this.allProducts.filter(p =>
-      p.name.toLowerCase().includes(term) ||
-      p.description.toLowerCase().includes(term)
-    );
+    this.searchTerm = (event.target.value || '').trim().toLowerCase();
+    this.filterProducts();
+  }
+
+  selectCategory(categoryId: number | null) {
+    this.selectedCategoryId = categoryId;
+    this.filterProducts();
+  }
+
+  changeSort(event: any) {
+    this.currentSort = event.target.value;
+    this.filterProducts();
+  }
+
+  filterProducts() {
+    let allowedCategoryIds: number[] | null = null;
+    
+    if (this.selectedCategoryId !== null) {
+      allowedCategoryIds = [this.selectedCategoryId];
+      const subCategoryIds = this.allCategories
+        .filter(c => c.superCategoryId === this.selectedCategoryId)
+        .map(c => c.categoryId);
+      allowedCategoryIds.push(...subCategoryIds);
+    }
+
+    let result = this.allProducts.filter(p => {
+      const matchCategory = allowedCategoryIds === null || allowedCategoryIds.includes(p.categoryId);
+      const matchSearch = p.name.toLowerCase().includes(this.searchTerm) || p.description.toLowerCase().includes(this.searchTerm);
+      return matchCategory && matchSearch;
+    });
+
+    if (this.currentSort === 'name-asc') {
+      result.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (this.currentSort === 'name-desc') {
+      result.sort((a, b) => b.name.localeCompare(a.name));
+    } else if (this.currentSort === 'price-asc') {
+      result.sort((a, b) => a.price - b.price);
+    } else if (this.currentSort === 'price-desc') {
+      result.sort((a, b) => b.price - a.price);
+    }
+
+    this.filteredProducts = result;
   }
 
   addToCart(product: Product) {
@@ -45,20 +96,22 @@ export class CategoryProductsComponent implements OnInit {
   /** Returns a local asset path for a product image, or null to use the emoji fallback */
   getProductImage(name: string): string | null {
     const n = name.toLowerCase();
-    if (n.includes('water') || n.includes('vivia') || n.includes('prolom')) {
-      return '/assets/product_water.png';
-    }
-    if (n.includes('cola') || n.includes('fanta') || n.includes('sprite')) {
-      return '/assets/product_cola.png';
-    }
-    if (n.includes('red bull') || n.includes('monster') || n.includes('energy')) {
-      return '/assets/product_energy.png';
-    }
-    if (n.includes('beer') || n.includes('jelen') || n.includes('heineken') ||
-        n.includes('zajecarsko') || n.includes('paulaner')) {
-      return '/assets/product_beer.png';
-    }
-    // Whiskey and wine — no image generated, fall through to emoji
+    if (n.includes('vivia water')) return '/assets/Vivia Water.jpg';
+    if (n.includes('prolom water')) return '/assets/Prolom Water.jpg';
+    if (n.includes('coca-cola')) return '/assets/Coca-Cola.jpg';
+    if (n.includes('fanta')) return '/assets/fanta.jpg';
+    if (n.includes('sprite')) return '/assets/sprite.jpg';
+    if (n.includes('red bull')) return '/assets/Red Bull.jpg';
+    if (n.includes('monster energy')) return '/assets/monster energy.jpg';
+    if (n.includes('canadian whiskey')) return '/assets/canadian whiskey.jpg';
+    if (n.includes('bourbon')) return '/assets/Bourbon.jpg';
+    if (n.includes('jameson')) return '/assets/jameson.jpg';
+    if (n.includes('jelen')) return '/assets/jelen.jpg';
+    if (n.includes('heineken')) return '/assets/heineken.jpg';
+    if (n.includes('zajecarsko')) return '/assets/zajecarsko.jpg';
+    if (n.includes('paulaner')) return '/assets/Paulaner Munich.jpg';
+    if (n.includes('vranac')) return '/assets/Vranac Pro Corde.jpg';
+    if (n.includes('chardonnay')) return '/assets/Chardonnay Premium.jpg';
     return null;
   }
 

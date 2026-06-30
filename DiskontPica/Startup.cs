@@ -1,4 +1,4 @@
-﻿using DiskontPica.Helper;
+using DiskontPica.Helper;
 using DiskontPica.Models;
 using DiskontPica.Profiles;
 using DiskontPica.Repository;
@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Stripe;
 using System.Text;
+using System.Text.Json.Serialization;
 using AutoMapper;
 
 namespace DiskontPica
@@ -27,7 +28,10 @@ namespace DiskontPica
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddControllers();
+			services.AddControllers()
+				.AddJsonOptions(opts =>
+					opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter())
+				);
 			services.Configure<StripeSettings>(_configuration.GetSection("StripeSettings"));
 			services.AddScoped<IDrinkStoreRepository, DrinkStoreRepository>();
 			services.AddScoped<IAuthenticationHelper, AuthenticationHelper>();

@@ -210,7 +210,7 @@ namespace DiskontPica.Controllers
 
 		// Category
 
-		[Authorize(Policy = IdentityData.AdminPolicy)]
+		[AllowAnonymous]
 		[HttpGet("category")]
 		public ActionResult<IEnumerable<Category>> GetAllCategories()
 		{
@@ -222,7 +222,7 @@ namespace DiskontPica.Controllers
 			return Ok(obj);
 		}
 
-		[Authorize(Policy = IdentityData.AdminPolicy)]
+		[AllowAnonymous]
 		[HttpGet("category/{id}")]
 		public ActionResult<Category> GetCategoryById(int id)
 		{

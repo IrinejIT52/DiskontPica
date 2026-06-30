@@ -1,11 +1,42 @@
 <div class="products-page">
 
-  <!-- Search Bar -->
-  <div class="search-bar-wrapper">
+  <!-- Controls Bar -->
+  <div class="controls-bar">
     <div class="search-bar">
       <i class="fa fa-search search-icon"></i>
       <input type="text" class="search-input" placeholder="Search products..." (input)="applyFilter($event)" />
     </div>
+
+    <div class="sort-bar">
+      <div class="custom-select-wrapper">
+        <select class="sort-select" (change)="changeSort($event)">
+          <option value="default">Sort by: Default</option>
+          <option value="name-asc">Name (A-Z)</option>
+          <option value="name-desc">Name (Z-A)</option>
+          <option value="price-asc">Price (Low to High)</option>
+          <option value="price-desc">Price (High to Low)</option>
+        </select>
+        <svg class="select-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 9l6 6 6-6"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Categories Filter -->
+  <div class="categories-filter">
+    <button class="category-chip" 
+            [class.active]="selectedCategoryId === null" 
+            (click)="selectCategory(null)">
+      All
+    </button>
+    @for (category of allCategories; track category.categoryId) {
+      <button class="category-chip" 
+              [class.active]="selectedCategoryId === category.categoryId" 
+              (click)="selectCategory(category.categoryId)">
+        {{ category.name }}
+      </button>
+    }
   </div>
 
   <!-- Product Grid -->

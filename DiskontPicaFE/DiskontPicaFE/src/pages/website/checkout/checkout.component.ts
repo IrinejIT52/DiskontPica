@@ -31,7 +31,7 @@ export class CheckoutComponent implements OnInit {
     private customerService: CustomerService,
     private orderService: OrdersService,
     private paymentService: PaymentService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.checkoutForm = this.fb.group({
@@ -69,7 +69,7 @@ export class CheckoutComponent implements OnInit {
       const { name } = this.parseJwt(localStorage.getItem('token'));
       this.customerService.GetCustomerByName(name).subscribe((data: any) => {
         this.order.customerId = data[0].customerId;
-        
+
         const cartList = this.cartService.getCart();
         this.order.orderItems = [];
 
@@ -86,9 +86,9 @@ export class CheckoutComponent implements OnInit {
 
         const datee = formatDate(this.date, 'yyyy-MM-dd', 'en-US');
         this.order.orderDate = datee;
-        this.order.orderStatus = 0; // PENDING
-        this.order.orderType = 0;   // REGULAR
-        
+        this.order.orderStatus = 'PENDING';
+        this.order.orderType = 'REGULAR';
+
         // Save the shipping info in additionalInfo
         const formVals = this.checkoutForm.value;
         this.order.addiitionalInfo = `${formVals.firstName} ${formVals.lastName}, ${formVals.address}, ${formVals.city} ${formVals.zip}`;

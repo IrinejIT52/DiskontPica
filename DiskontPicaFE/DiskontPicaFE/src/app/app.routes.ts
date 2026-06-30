@@ -12,6 +12,7 @@ import { CustomersComponent } from '../pages/admin/customers/customers.component
 import { OrdersComponent } from '../pages/admin/orders/orders.component';
 import { RegisterComponent } from '../pages/website/register/register.component';
 import { LoginLayoutComponent } from '../pages/website/login-layout/login-layout.component';
+import { adminGuard } from '../guards/admin.guard';
 
 export const routes: Routes = [
 
@@ -63,6 +64,7 @@ export const routes: Routes = [
     {
         path:'',
         component:DashboardComponent,
+        canActivate:[adminGuard],
         children:[
             {
                 path:'admin-products',
